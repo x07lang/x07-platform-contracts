@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://x07.io/spec/lp.deploy.push.result.schema.json",
+  "title": "lp.deploy.push.result@0.1.0",
+  "description": "Result payload for the remote CAS probe and upload portion of deploy accept.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "target",
+    "artifact",
+    "manifest_digest",
+    "probed",
+    "missing_count",
+    "uploaded_count",
+    "skipped_count",
+    "uploaded",
+    "skipped"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "lp.deploy.push.result@0.1.0"
+    },
+    "target": {
+      "$ref": "#/$defs/target"
+    },
+    "artifact": {
+      "$ref": "#/$defs/artifact"
+    },
+    "manifest_digest": {
+      "$ref": "#/$defs/digest_ref"
+    },
+    "probed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "missing"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/blob"
+          },
+          "default": []
+        },
+        "present": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/blob"
+          },
+          "default": []
+        }
+      }
+    },
+    "missing_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "uploaded_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "skipped_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "uploaded": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/blob"
+      },
+      "default": []
+    },
+    "skipped": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/blob"
+      },
+      "default": []
+    }
+  },
+  "$defs": {
+    "digest_ref": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "blob": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "digest",
+        "bytes_len",
+        "media_type",
+        "logical_name"
+      ],
+      "properties": {
+        "digest": {
+          "$ref": "#/$defs/digest_ref"
+        },
+        "bytes_len": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "logical_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "digest"
+      ],
+      "properties": {
+        "kind": {
+          "const": "x07.app.pack@0.1.0"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest_ref"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "kind",
+        "base_url"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "const": "oss_remote"
+        },
+        "base_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    }
+  }
+}

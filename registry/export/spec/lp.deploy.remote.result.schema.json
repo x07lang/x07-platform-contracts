@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://x07.io/spec/lp.deploy.remote.result.schema.json",
+  "title": "lp.deploy.remote.result@0.1.0",
+  "description": "Unified result payload for remote accept, run, query, status, and control operations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "target",
+    "op",
+    "ok",
+    "run_id",
+    "deployment_id",
+    "decision_ids",
+    "artifacts_written"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "lp.deploy.remote.result@0.1.0"
+    },
+    "target": {
+      "$ref": "#/$defs/target"
+    },
+    "op": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "run",
+        "status",
+        "query",
+        "stop",
+        "rollback",
+        "pause",
+        "rerun"
+      ]
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "deployment_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "decision_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "default": []
+    },
+    "artifacts_written": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/artifact_ref"
+      },
+      "default": []
+    },
+    "query_view": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "summary",
+        "timeline",
+        "decisions",
+        "artifacts",
+        "full",
+        null
+      ],
+      "default": null
+    },
+    "public_listener": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 2048,
+      "default": null
+    },
+    "current_weight_pct": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100,
+      "default": null
+    },
+    "remote_event_cursor": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 512,
+      "default": null
+    },
+    "payload": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
+      "default": null
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algo",
+        "sha256",
+        "bytes_len",
+        "media_type"
+      ],
+      "properties": {
+        "algo": {
+          "const": "sha256"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes_len": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "logical_name": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "store_uri": {
+          "type": "string",
+          "maxLength": 2048
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "kind",
+        "base_url"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "const": "oss_remote"
+        },
+        "base_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    }
+  }
+}
