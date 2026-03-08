@@ -14,6 +14,7 @@ D-OSS public additions include:
 - target profiles and listing contracts
 - remote upload and remote deploy result contracts
 - remote execution and incident companion metadata
+- remote event and log stream contracts
 - remote capabilities and adapter conformance contracts
 
 Rules:

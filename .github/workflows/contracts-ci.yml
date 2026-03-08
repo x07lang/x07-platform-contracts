@@ -1,0 +1,24 @@
+name: Contracts CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Schema index drift
+        run: ./scripts/gen_schema_index.sh --check
+
+      - name: Compatibility
+        run: ./scripts/check_compat.sh
+
+      - name: Registry export bundle
+        run: python3 scripts/export_registry_web_platform_specs.py --schema-dir spec/schemas --out-dir registry/export/spec
