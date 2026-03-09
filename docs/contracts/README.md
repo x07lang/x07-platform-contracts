@@ -6,6 +6,7 @@ Current public contract groups:
 
 - core lifecycle: `lp.change_request@0.1.0`, `lp.pipeline.run@0.1.0`, `lp.decision.record@0.1.0`
 - deploy execution: `lp.deploy.execution@0.1.0`, `lp.deploy.execution.meta.local@0.1.0`, `lp.deploy.execution.meta.remote@0.1.0`, `lp.deploy.query.result@0.1.0`, `lp.deploy.push.result@0.1.0`, `lp.deploy.remote.result@0.1.0`
+- device release: `lp.device.store.provider.profile@0.1.0`, `lp.device.release.plan@0.1.0`, `lp.device.release.execution@0.1.0`, `lp.device.release.query.result@0.1.0`, `lp.device.release.run.result@0.1.0`
 - remote streams: `lp.remote.events.result@0.1.0`, `lp.remote.logs.result@0.1.0`
 - incidents and regressions: `lp.incident.bundle@0.1.0`, `lp.incident.bundle.meta.local@0.1.0`, `lp.incident.bundle.meta.remote@0.1.0`, `lp.incident.query.result@0.1.0`, `lp.regression.request@0.1.0`, `lp.regression.run.result@0.1.0`
 - target and adapter contracts: `lp.target.profile@0.1.0`, `lp.target.list.result@0.1.0`, `lp.remote.capabilities.response@0.1.0`, `lp.adapter.capabilities@0.1.0`, `lp.adapter.conformance.report@0.1.0`
@@ -15,6 +16,8 @@ Current public contract groups:
 Notes:
 
 - `lp.deploy.execution@0.1.0` executes `x07.deploy.plan@0.2.0`.
+- `lp.device.release.plan@0.1.0` references `lp.device.store.provider.profile@0.1.0` and sealed `x07.device.package.manifest@0.1.0` inputs.
+- `lp.device.release.execution@0.1.0` and `lp.device.release.query.result@0.1.0` capture the provider-neutral release trail used by CLI, MCP, and UI surfaces.
 - D-OSS remote deploy v1 accepts `x07.app.pack@0.1.0` only.
 - `lp.target.profile@0.1.0` now defines the hardened self-hosted remote path:
   - `base_url` must be `https://...` unless it targets loopback `http://127.0.0.1` or `http://localhost`

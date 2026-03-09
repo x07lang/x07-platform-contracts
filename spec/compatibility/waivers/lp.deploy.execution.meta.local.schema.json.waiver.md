@@ -1,0 +1,11 @@
+# Waiver: `lp.deploy.execution.meta.local.schema.json`
+
+This branch already revised the `lp.deploy.execution.meta.local@0.1.0` description in place.
+
+Approved same-version edits:
+
+- remove internal milestone wording from the public description
+
+Reason:
+
+- public schema text must not expose internal milestone naming.
