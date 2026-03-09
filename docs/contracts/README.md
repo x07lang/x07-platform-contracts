@@ -16,4 +16,10 @@ Notes:
 
 - `lp.deploy.execution@0.1.0` executes `x07.deploy.plan@0.2.0`.
 - D-OSS remote deploy v1 accepts `x07.app.pack@0.1.0` only.
+- `lp.target.profile@0.1.0` now defines the hardened self-hosted remote path:
+  - `base_url` must be `https://...` unless it targets loopback `http://127.0.0.1` or `http://localhost`
+  - `tls.mode = "ca_bundle"` requires `tls.ca_bundle_path`
+  - `tls.mode = "pinned_spki"` requires `tls.pinned_spki_sha256`
+  - `oci_registry` requires `oci_auth` and `oci_tls`
+- `lp.remote.capabilities.response@0.1.0` includes `features.authenticated_oci_push` and `features.registry_tls` so clients can preflight the registry path before deploy.
 - Public schemas, examples, and reason codes must not expose internal milestone naming.

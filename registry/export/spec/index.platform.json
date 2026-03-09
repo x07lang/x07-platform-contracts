@@ -105,6 +105,14 @@
       "path": "lp.remote.capabilities.response.schema.json"
     },
     {
+      "id": "https://x07.io/spec/lp.remote.events.result.schema.json",
+      "path": "lp.remote.events.result.schema.json"
+    },
+    {
+      "id": "https://x07.io/spec/lp.remote.logs.result.schema.json",
+      "path": "lp.remote.logs.result.schema.json"
+    },
+    {
       "id": "https://x07.io/spec/lp.target.list.result.schema.json",
       "path": "lp.target.list.result.schema.json"
     },

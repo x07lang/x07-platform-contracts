@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://x07.io/spec/lp.adapter.conformance.report.schema.json",
   "title": "lp.adapter.conformance.report@0.1.0",
-  "description": "Machine-readable conformance report for remote provider adapters.",
+  "description": "Machine-readable adapter certification report.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -16,137 +16,45 @@
     "diagnostics"
   ],
   "properties": {
-    "schema_version": {
-      "const": "lp.adapter.conformance.report@0.1.0"
-    },
-    "provider": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
-    },
-    "target_profile": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "kind",
-        "base_url"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "kind": {
-          "const": "oss_remote"
-        },
-        "base_url": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 2048
-        }
-      }
-    },
-    "capabilities": {
-      "$ref": "https://x07.io/spec/lp.adapter.capabilities.schema.json"
-    },
+    "schema_version": { "const": "lp.adapter.conformance.report@0.1.0" },
+    "provider": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "target_profile": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "capabilities": { "$ref": "lp.adapter.capabilities.schema.json" },
     "scenarios": {
       "type": "array",
-      "items": {
-        "$ref": "#/$defs/scenario"
-      },
+      "items": { "$ref": "#/$defs/scenario" },
+      "maxItems": 256,
       "default": []
     },
-    "passed": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "failed": {
-      "type": "integer",
-      "minimum": 0
-    },
+    "passed": { "type": "integer", "minimum": 0 },
+    "failed": { "type": "integer", "minimum": 0 },
     "diagnostics": {
       "type": "array",
-      "items": {
-        "$ref": "#/$defs/diagnostic"
-      },
+      "items": { "$ref": "#/$defs/diag" },
+      "maxItems": 4096,
       "default": []
     }
   },
   "$defs": {
-    "diagnostic": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "code",
-        "severity",
-        "message"
-      ],
-      "properties": {
-        "code": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 64,
-          "pattern": "^[A-Z][A-Z0-9_-]*$"
-        },
-        "severity": {
-          "type": "string",
-          "enum": [
-            "error",
-            "warning",
-            "info",
-            "hint"
-          ]
-        },
-        "message": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 4096
-        }
-      }
-    },
     "scenario": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "name",
-        "ok"
-      ],
+      "required": ["name", "ok"],
       "properties": {
-        "name": {
-          "type": "string",
-          "enum": [
-            "upload_dedupe",
-            "remote_promote",
-            "remote_rollback",
-            "remote_pause",
-            "remote_rerun",
-            "remote_incident_capture",
-            "remote_regression_generation",
-            "telemetry_emit",
-            "missing_secret_handling",
-            "query_parity"
-          ]
-        },
-        "ok": {
-          "type": "boolean"
-        },
-        "details": {
-          "type": [
-            "object",
-            "null"
-          ],
-          "additionalProperties": true,
-          "default": null
-        },
-        "diagnostics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/diagnostic"
-          },
-          "default": []
-        }
+        "name": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "ok": { "type": "boolean" },
+        "details": { "type": "string", "maxLength": 2048 }
+      }
+    },
+    "diag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "severity", "message"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "severity": { "type": "string", "enum": ["info", "warn", "error"] },
+        "message": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "stage": { "type": "string", "maxLength": 64 }
       }
     }
   }

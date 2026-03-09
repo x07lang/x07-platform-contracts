@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://x07.io/spec/lp.adapter.capabilities.schema.json",
   "title": "lp.adapter.capabilities@0.1.0",
-  "description": "Provider and remote-target capability description used by adapter conformance and target inspection.",
+  "description": "Provider adapter capability summary.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -20,87 +20,17 @@
     "supports_server_side_secrets"
   ],
   "properties": {
-    "schema_version": {
-      "const": "lp.adapter.capabilities@0.1.0"
-    },
-    "provider": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
-    },
-    "runtime_kind": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
-    },
-    "routing_kind": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
-    },
-    "telemetry_kind": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 128,
-      "default": null
-    },
-    "secrets_kind": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 128,
-      "default": null
-    },
-    "component_registry": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 128,
-      "default": null
-    },
-    "artifact_distribution": {
-      "type": "string",
-      "enum": [
-        "oci",
-        "cas_only"
-      ]
-    },
-    "supported_artifact_kinds": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 128
-      },
-      "default": []
-    },
-    "supports_incidents": {
-      "type": "boolean"
-    },
-    "supports_regressions": {
-      "type": "boolean"
-    },
-    "supports_pause": {
-      "type": "boolean"
-    },
-    "supports_rerun": {
-      "type": "boolean"
-    },
-    "supports_weighted_canary": {
-      "type": "boolean"
-    },
-    "supports_otlp": {
-      "type": "boolean"
-    },
-    "supports_server_side_secrets": {
-      "type": "boolean"
-    }
+    "schema_version": { "const": "lp.adapter.capabilities@0.1.0" },
+    "provider": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "runtime_kind": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "routing_kind": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "artifact_distribution": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "supports_incidents": { "type": "boolean" },
+    "supports_regressions": { "type": "boolean" },
+    "supports_pause": { "type": "boolean" },
+    "supports_rerun": { "type": "boolean" },
+    "supports_weighted_canary": { "type": "boolean" },
+    "supports_otlp": { "type": "boolean" },
+    "supports_server_side_secrets": { "type": "boolean" }
   }
 }

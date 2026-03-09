@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://x07.io/spec/lp.deploy.remote.result.schema.json",
   "title": "lp.deploy.remote.result@0.1.0",
-  "description": "Unified result payload for remote accept, run, query, status, and control operations.",
+  "description": "Unified result payload for remote deploy lifecycle commands.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -16,167 +16,67 @@
     "artifacts_written"
   ],
   "properties": {
-    "schema_version": {
-      "const": "lp.deploy.remote.result@0.1.0"
-    },
-    "target": {
-      "$ref": "#/$defs/target"
-    },
+    "schema_version": { "const": "lp.deploy.remote.result@0.1.0" },
+    "target": { "type": "string", "minLength": 1, "maxLength": 128 },
     "op": {
       "type": "string",
-      "enum": [
-        "accept",
-        "run",
-        "status",
-        "query",
-        "stop",
-        "rollback",
-        "pause",
-        "rerun"
+      "enum": ["accept", "run", "status", "query", "stop", "rollback", "pause", "rerun"]
+    },
+    "ok": { "type": "boolean" },
+    "run_id": {
+      "oneOf": [
+        { "type": "string", "minLength": 1, "maxLength": 128 },
+        { "type": "null" }
       ]
     },
-    "ok": {
-      "type": "boolean"
-    },
-    "run_id": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
-    },
     "deployment_id": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
+      "oneOf": [
+        { "type": "string", "minLength": 1, "maxLength": 128 },
+        { "type": "null" }
+      ]
     },
     "decision_ids": {
       "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 128
-      },
+      "items": { "type": "string", "minLength": 1, "maxLength": 128 },
+      "maxItems": 4096,
       "default": []
     },
     "artifacts_written": {
       "type": "array",
-      "items": {
-        "$ref": "#/$defs/artifact_ref"
-      },
+      "items": { "$ref": "#/$defs/artifact_ref" },
+      "maxItems": 8192,
       "default": []
     },
-    "query_view": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "enum": [
-        "summary",
-        "timeline",
-        "decisions",
-        "artifacts",
-        "full",
-        null
-      ],
-      "default": null
-    },
-    "public_listener": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 2048,
-      "default": null
-    },
-    "current_weight_pct": {
-      "type": [
-        "integer",
-        "null"
-      ],
-      "minimum": 0,
-      "maximum": 100,
-      "default": null
-    },
-    "remote_event_cursor": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 512,
-      "default": null
-    },
-    "payload": {
-      "type": [
-        "object",
-        "null"
-      ],
-      "additionalProperties": true,
-      "default": null
-    }
+    "query_view": { "type": "string", "maxLength": 64 },
+    "public_listener": { "type": "string", "maxLength": 2048 },
+    "current_weight_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "remote_event_cursor": { "type": "string", "maxLength": 512 }
   },
   "$defs": {
-    "sha256": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{64}$"
-    },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "artifact_ref": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "algo",
-        "sha256",
-        "bytes_len",
-        "media_type"
-      ],
+      "required": ["digest"],
       "properties": {
-        "algo": {
-          "const": "sha256"
-        },
-        "sha256": {
-          "$ref": "#/$defs/sha256"
-        },
-        "bytes_len": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "media_type": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 256
-        },
-        "logical_name": {
-          "type": "string",
-          "maxLength": 256
-        },
-        "store_uri": {
-          "type": "string",
-          "maxLength": 2048
-        }
-      }
-    },
-    "target": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "kind",
-        "base_url"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
         "kind": {
-          "const": "oss_remote"
-        },
-        "base_url": {
           "type": "string",
-          "minLength": 1,
-          "maxLength": 2048
-        }
+          "minLength": 3,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*@[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "digest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sha256", "bytes_len"],
+          "properties": {
+            "sha256": { "$ref": "#/$defs/sha256" },
+            "bytes_len": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "role": { "type": "string", "maxLength": 128 },
+        "media_type": { "type": "string", "maxLength": 256 },
+        "store_uri": { "type": "string", "maxLength": 2048 }
       }
     }
   }

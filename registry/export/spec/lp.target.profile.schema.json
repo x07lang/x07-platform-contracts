@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://x07.io/spec/lp.target.profile.schema.json",
   "title": "lp.target.profile@0.1.0",
-  "description": "Creator-side target configuration for OSS remote x07-platform control planes.",
+  "description": "Creator-side remote target profile for x07lp.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -16,186 +16,143 @@
     "routing_provider"
   ],
   "properties": {
-    "schema_version": {
-      "const": "lp.target.profile@0.1.0"
-    },
-    "name": {
-      "$ref": "#/$defs/id"
-    },
-    "kind": {
-      "const": "oss_remote"
-    },
+    "schema_version": { "const": "lp.target.profile@0.1.0" },
+    "name": { "$ref": "#/$defs/name" },
+    "kind": { "const": "oss_remote" },
     "base_url": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 2048
+      "maxLength": 2048,
+      "pattern": "^(https://.+|http://(?:127\\.0\\.0\\.1|localhost)(?::[0-9]{1,5})?(?:/.*)?)$"
     },
-    "api_version": {
-      "const": "v1"
-    },
+    "api_version": { "const": "v1" },
     "auth": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "kind",
-        "token_ref"
-      ],
+      "required": ["kind", "token_ref"],
       "properties": {
-        "kind": {
-          "const": "static_bearer"
-        },
-        "token_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 2048,
-          "pattern": "^file://.+$"
-        }
+        "kind": { "const": "static_bearer" },
+        "token_ref": { "type": "string", "minLength": 1, "maxLength": 4096 }
       }
     },
     "tls": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "mode"
-      ],
+      "required": ["mode"],
       "properties": {
-        "mode": {
-          "type": "string",
-          "enum": [
-            "system",
-            "custom_bundle",
-            "insecure_skip_verify"
-          ]
-        },
-        "ca_bundle_path": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "minLength": 1,
-          "maxLength": 2048,
-          "default": null
+        "mode": { "type": "string", "enum": ["system", "ca_bundle", "pinned_spki"] },
+        "ca_bundle_path": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "pinned_spki_sha256": { "$ref": "#/$defs/sha256_prefixed" }
+      }
+    },
+    "runtime_provider": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "routing_provider": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "oci_registry": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "oci_auth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "username_ref", "password_ref"],
+      "properties": {
+        "kind": { "const": "basic" },
+        "username_ref": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "password_ref": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      }
+    },
+    "oci_tls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["system", "ca_bundle"] },
+        "ca_bundle_path": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      }
+    },
+    "lattice_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "default_namespace": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "default_env": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "telemetry_collector_hint": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "expect_capabilities_digest": { "$ref": "#/$defs/sha256_prefixed" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["tls"],
+        "properties": {
+          "tls": {
+            "required": ["mode"],
+            "properties": {
+              "mode": { "const": "ca_bundle" }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "tls": {
+            "required": ["mode", "ca_bundle_path"]
+          }
         }
       }
     },
-    "runtime_provider": {
-      "type": "string",
-      "enum": [
-        "wasmcloud",
-        "lp.impl.runtime.wasmcloud_v1"
-      ]
-    },
-    "routing_provider": {
-      "type": "string",
-      "enum": [
-        "edge_http_v1",
-        "lp.impl.routing.edge_http_v1"
-      ]
-    },
-    "telemetry_provider": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "enum": [
-        "otlp_http_v1",
-        "lp.impl.telemetry.otlp_http_v1",
-        null
-      ],
-      "default": null
-    },
-    "secrets_provider": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "enum": [
-        "server_store_v1",
-        "lp.impl.secrets.server_store_v1",
-        null
-      ],
-      "default": null
-    },
-    "component_registry": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "enum": [
-        "oci_v1",
-        "lp.impl.component_registry.oci_v1",
-        null
-      ],
-      "default": null
-    },
-    "oci_registry": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 512,
-      "default": null
-    },
-    "lattice_id": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 128,
-      "default": null
-    },
-    "default_namespace": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 128,
-      "default": null
-    },
-    "default_env": {
-      "oneOf": [
-        {
-          "$ref": "#/$defs/environment_key"
-        },
-        {
-          "type": "null"
+    {
+      "if": {
+        "required": ["tls"],
+        "properties": {
+          "tls": {
+            "required": ["mode"],
+            "properties": {
+              "mode": { "const": "pinned_spki" }
+            }
+          }
         }
-      ],
-      "default": null
+      },
+      "then": {
+        "properties": {
+          "tls": {
+            "required": ["mode", "pinned_spki_sha256"]
+          }
+        }
+      }
     },
-    "telemetry_collector_hint": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "minLength": 1,
-      "maxLength": 2048,
-      "default": null
+    {
+      "if": {
+        "required": ["oci_registry"]
+      },
+      "then": {
+        "required": ["oci_auth", "oci_tls"]
+      }
     },
-    "expect_capabilities_digest": {
-      "type": [
-        "string",
-        "null"
-      ],
-      "pattern": "^sha256:[0-9a-f]{64}$",
-      "default": null
+    {
+      "if": {
+        "required": ["oci_tls"],
+        "properties": {
+          "oci_tls": {
+            "required": ["mode"],
+            "properties": {
+              "mode": { "const": "ca_bundle" }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "oci_tls": {
+            "required": ["mode", "ca_bundle_path"]
+          }
+        }
+      }
     }
-  },
+  ],
   "$defs": {
-    "id": {
+    "name": {
       "type": "string",
       "minLength": 1,
       "maxLength": 128,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
     },
-    "environment_key": {
+    "sha256_prefixed": {
       "type": "string",
-      "minLength": 1,
-      "maxLength": 64,
-      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+      "pattern": "^sha256:[0-9a-f]{64}$"
     }
   }
 }
