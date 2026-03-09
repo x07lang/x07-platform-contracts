@@ -17,7 +17,9 @@ Notes:
 
 - `lp.deploy.execution@0.1.0` executes `x07.deploy.plan@0.2.0`.
 - `lp.device.release.plan@0.1.0` references `lp.device.store.provider.profile@0.1.0` and sealed `x07.device.package.manifest@0.1.0` inputs.
-- `lp.device.release.execution@0.1.0` and `lp.device.release.query.result@0.1.0` capture the provider-neutral release trail used by CLI, MCP, and UI surfaces.
+- `lp.device.release.plan@0.1.0` now includes a first-class `metrics.eval` step that references a sealed `x07.slo.profile@0.1.0` threshold artifact instead of embedding raw metrics.
+- `lp.device.release.execution@0.1.0` and `lp.device.release.query.result@0.1.0` capture the provider-neutral release trail plus the latest metrics snapshot, SLO evaluation outcome, and linked incidents used by CLI, MCP, and UI surfaces.
+- `lp.incident.bundle.meta.local@0.1.0` and `lp.incident.query.result@0.1.0` can describe either deploy-linked incidents or device-release-linked incidents without minting a second incident system.
 - D-OSS remote deploy v1 accepts `x07.app.pack@0.1.0` only.
 - `lp.target.profile@0.1.0` now defines the hardened self-hosted remote path:
   - `base_url` must be `https://...` unless it targets loopback `http://127.0.0.1` or `http://localhost`

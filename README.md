@@ -16,12 +16,14 @@ D-OSS public additions include:
 - remote execution and incident companion metadata
 - remote event and log stream contracts
 - remote capabilities and adapter conformance contracts
+- device release orchestration, observability, and control contracts
 
 Rules:
 
 - Public stable `lp.*` schemas are authored here, not in `x07-platform` or `x07-platform-cloud`.
 - `x07-platform` and `x07-platform-cloud` consume these contracts.
 - Hosted-only private schemas belong in `lpcloud.*`, not `lp.*`.
+- Device release metrics gates, incident linkage, and observe/stop/rerun controls stay in `lp.*`; device package and host-facing artifacts stay in `x07.device.*`.
 
 Developer commands:
 
