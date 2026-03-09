@@ -22,4 +22,5 @@ Notes:
   - `tls.mode = "pinned_spki"` requires `tls.pinned_spki_sha256`
   - `oci_registry` requires `oci_auth` and `oci_tls`
 - `lp.remote.capabilities.response@0.1.0` includes `features.authenticated_oci_push` and `features.registry_tls` so clients can preflight the registry path before deploy.
+- `lp.deploy.execution.meta.remote@0.1.0` preserves the target TLS and OCI trust/auth references carried by the accepted target profile so remote query artifacts stay self-describing.
 - Public schemas, examples, and reason codes must not expose internal milestone naming.
