@@ -11,7 +11,7 @@ Current public contract groups:
 - incidents and regressions: `lp.incident.bundle@0.2.0`, `lp.incident.bundle.meta.local@0.2.0`, `lp.incident.bundle.meta.remote@0.2.0`, `lp.incident.query.result@0.2.0`, `lp.regression.request@0.2.0`, `lp.regression.run.result@0.2.0`
 - target and adapter contracts: `lp.target.profile@0.1.0`, `lp.target.list.result@0.1.0`, `lp.remote.capabilities.response@0.1.0`, `lp.adapter.capabilities@0.1.0`, `lp.adapter.conformance.report@0.1.0`
 - CLI and control: `lp.cli.report@0.1.0`, `lp.control.action.result@0.1.0`, `lp.app.list.result@0.1.0`
-- shared hosted-facing public contracts reserved for later layers: `lp.auth.*`, `lp.metering.event@0.1.0`
+- shared hosted-facing public contracts: `lp.auth.*`, `lp.org.list.result@0.1.0`, `lp.project.list.result@0.1.0`, `lp.environment.list.result@0.1.0`, `lp.metering.event@0.1.0`
 
 Notes:
 
@@ -30,4 +30,5 @@ Notes:
   - `oci_registry` requires `oci_auth` and `oci_tls`
 - `lp.remote.capabilities.response@0.1.0` includes `features.authenticated_oci_push` and `features.registry_tls` so clients can preflight the registry path before deploy.
 - `lp.deploy.execution.meta.remote@0.1.0` preserves the target TLS and OCI trust/auth references carried by the accepted target profile so remote query artifacts stay self-describing.
+- `lp.org.list.result@0.1.0`, `lp.project.list.result@0.1.0`, and `lp.environment.list.result@0.1.0` provide the shared hosted context tables used by `x07lp` and hosted console onboarding.
 - Public schemas, examples, and reason codes must not expose internal milestone naming.

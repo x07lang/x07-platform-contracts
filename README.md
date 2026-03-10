@@ -18,6 +18,11 @@ D-OSS public additions include:
 - remote capabilities and adapter conformance contracts
 - device release orchestration, observability, and control contracts
 
+Hosted public additions include:
+
+- session and token exchange contracts for `x07lp` hosted login
+- organization, project, and environment listing contracts for hosted context selection
+
 Rules:
 
 - Public stable `lp.*` schemas are authored here, not in `x07-platform` or `x07-platform-cloud`.

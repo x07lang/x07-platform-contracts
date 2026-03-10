@@ -12,6 +12,14 @@ Key D-OSS response/result schemas:
 - `lp.incident.query.result@0.2.0`
 - `lp.regression.run.result@0.2.0`
 
+Key hosted response/result schemas:
+
+- `lp.auth.token.response@0.1.0`
+- `lp.auth.whoami.result@0.1.0`
+- `lp.org.list.result@0.1.0`
+- `lp.project.list.result@0.1.0`
+- `lp.environment.list.result@0.1.0`
+
 The canonical endpoint set is implemented by `x07-platform/x07lpd`, but public wire-shape compatibility is governed here.
 
 Key D-OSS request/profile contracts:
@@ -23,6 +31,8 @@ Key D-OSS request/profile contracts:
 - `lp.regression.request@0.2.0` for regression generation requests against deploy or device package artifacts, including optional `native_replay_hints`
 
 Remote clients are expected to honor the target profile trust settings and OCI registry requirements before calling the self-hosted API surface.
+
+Hosted clients use the shared `lp.auth.*` contracts for browser and device login session bootstrap, then use the hosted list-result contracts to create, list, and select org/project/environment context without introducing a separate public schema family.
 
 Device-release consumers should treat the `@0.2.0` line as the public native-aware contract surface:
 
