@@ -1,13 +1,15 @@
 # Waiver: `lp.incident.bundle.meta.local.schema.json`
 
-This branch already revised the `lp.incident.bundle.meta.local@0.1.0` description in place.
+This file version-forwards the public local incident-meta line from `@0.1.0` to `@0.2.0` while keeping the stable x07.io schema path and `$id`.
 
-Approved same-version edits:
+Approved same-path edits:
 
-- remove internal milestone wording from the public description
-- allow device-release-linked incidents beside deploy-linked incidents
-- add device incident classifications, sources, and package linkage
+- change the public contract metadata to `lp.incident.bundle.meta.local@0.2.0`
+- replace the legacy device-native classifications with the M1 `native_*` taxonomy
+- add `release_plan_id`
+- add `native_context`
+- update the nested device-release shape to expose `target_kind` and `package_manifest_sha256`
 
 Reason:
 
-- public schema text must not expose internal milestone naming, and device incidents must reuse the published local companion schema.
+- local incident metadata must stay on the shared published path while the M1 device-native incident model lands.

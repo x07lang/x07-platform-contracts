@@ -6,9 +6,9 @@ Current public contract groups:
 
 - core lifecycle: `lp.change_request@0.1.0`, `lp.pipeline.run@0.1.0`, `lp.decision.record@0.1.0`
 - deploy execution: `lp.deploy.execution@0.1.0`, `lp.deploy.execution.meta.local@0.1.0`, `lp.deploy.execution.meta.remote@0.1.0`, `lp.deploy.query.result@0.1.0`, `lp.deploy.push.result@0.1.0`, `lp.deploy.remote.result@0.1.0`
-- device release: `lp.device.store.provider.profile@0.1.0`, `lp.device.release.plan@0.1.0`, `lp.device.release.execution@0.1.0`, `lp.device.release.query.result@0.1.0`, `lp.device.release.run.result@0.1.0`
+- device release: `lp.device.store.provider.profile@0.1.0`, `lp.device.release.plan@0.2.0`, `lp.device.release.execution@0.2.0`, `lp.device.release.query.result@0.2.0`, `lp.device.release.run.result@0.2.0`
 - remote streams: `lp.remote.events.result@0.1.0`, `lp.remote.logs.result@0.1.0`
-- incidents and regressions: `lp.incident.bundle@0.1.0`, `lp.incident.bundle.meta.local@0.1.0`, `lp.incident.bundle.meta.remote@0.1.0`, `lp.incident.query.result@0.1.0`, `lp.regression.request@0.1.0`, `lp.regression.run.result@0.1.0`
+- incidents and regressions: `lp.incident.bundle@0.2.0`, `lp.incident.bundle.meta.local@0.2.0`, `lp.incident.bundle.meta.remote@0.2.0`, `lp.incident.query.result@0.2.0`, `lp.regression.request@0.2.0`, `lp.regression.run.result@0.2.0`
 - target and adapter contracts: `lp.target.profile@0.1.0`, `lp.target.list.result@0.1.0`, `lp.remote.capabilities.response@0.1.0`, `lp.adapter.capabilities@0.1.0`, `lp.adapter.conformance.report@0.1.0`
 - CLI and control: `lp.cli.report@0.1.0`, `lp.control.action.result@0.1.0`, `lp.app.list.result@0.1.0`
 - shared hosted-facing public contracts reserved for later layers: `lp.auth.*`, `lp.metering.event@0.1.0`
@@ -16,10 +16,12 @@ Current public contract groups:
 Notes:
 
 - `lp.deploy.execution@0.1.0` executes `x07.deploy.plan@0.2.0`.
-- `lp.device.release.plan@0.1.0` references `lp.device.store.provider.profile@0.1.0` and sealed `x07.device.package.manifest@0.1.0` inputs.
-- `lp.device.release.plan@0.1.0` now includes a first-class `metrics.eval` step that references a sealed `x07.slo.profile@0.1.0` threshold artifact instead of embedding raw metrics.
-- `lp.device.release.execution@0.1.0` and `lp.device.release.query.result@0.1.0` capture the provider-neutral release trail plus the latest metrics snapshot, SLO evaluation outcome, and linked incidents used by CLI, MCP, and UI surfaces.
-- `lp.incident.bundle.meta.local@0.1.0` and `lp.incident.query.result@0.1.0` can describe either deploy-linked incidents or device-release-linked incidents without minting a second incident system.
+- `lp.device.release.plan@0.2.0` references `lp.device.store.provider.profile@0.1.0`, sealed `x07.device.package.manifest@0.1.0` inputs, and freezes the package-derived `native_summary` plus machine-readable `release_readiness`.
+- `lp.device.release.plan@0.2.0` keeps the first-class `metrics.eval` step that references a sealed `x07.slo.profile@0.1.0` threshold artifact instead of embedding raw metrics.
+- `lp.device.release.execution@0.2.0` and `lp.device.release.query.result@0.2.0` capture the provider-neutral release trail plus the latest metrics snapshot, native health rollup, latest native incident linkage, and latest regression linkage used by CLI, MCP, and UI surfaces.
+- `lp.incident.*@0.2.0` keeps device incidents inside the shared incident family, adds sanitized `native_context`, and uses the stable native classification set `native_runtime_error`, `native_policy_violation`, `native_bridge_timeout`, `native_host_crash`, and `native_permission_blocked`.
+- `lp.regression.*@0.2.0` keeps incident-driven regression generation generic while adding `native_replay_hints`, replay target metadata, and structured generated native replay artifact refs.
+- Runtime permission state belongs in `lp.incident.*@0.2.0` via `native_context`, not in `lp.device.release.*@0.2.0` release metadata.
 - D-OSS remote deploy v1 accepts `x07.app.pack@0.1.0` only.
 - `lp.target.profile@0.1.0` now defines the hardened self-hosted remote path:
   - `base_url` must be `https://...` unless it targets loopback `http://127.0.0.1` or `http://localhost`

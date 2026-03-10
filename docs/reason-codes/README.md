@@ -24,3 +24,11 @@ Current D-OSS additions:
 
 The runtime repo may emit these codes, but the public contract wording is maintained here.
 
+Native/device additions in the `@0.2.0` contract line reserve the following public diagnostic families:
+
+- `LP_DEVICE_RELEASE_NATIVE_*` for `lp.device.release.*@0.2.0` native-summary and readiness diagnostics
+- `LP_DEVICE_RELEASE_READINESS_*` for blocking or warning readiness checks surfaced through `release_readiness`
+- `LP_INCIDENT_NATIVE_*` for `lp.incident.*@0.2.0` native-context capture and validation diagnostics
+- `LP_REGRESSION_NATIVE_REPLAY_*` for `lp.regression.*@0.2.0` native replay-hint validation and replay synthesis diagnostics
+
+The `native_*` incident values are public classification enums, not reason codes.

@@ -1,95 +1,25 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://x07.io/spec/lp.incident.query.result.schema.json",
-  "title": "lp.incident.query.result@0.1.0",
-  "description": "Result object for x07lp incident list/get/capture and the corresponding MCP/UI surfaces.",
+  "title": "lp.incident.query.result@0.2.0",
+  "description": "Result object for x07lp incident list/get/capture and the corresponding MCP/UI surfaces, including release linkage and sanitized native context for device-native incidents.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "view",
-    "resolution",
-    "index"
-  ],
+  "required": ["schema_version", "view", "resolution", "index"],
   "properties": {
-    "schema_version": {
-      "const": "lp.incident.query.result@0.1.0"
-    },
+    "schema_version": { "const": "lp.incident.query.result@0.2.0" },
     "view": {
       "type": "string",
-      "enum": [
-        "list",
-        "summary",
-        "full"
-      ]
+      "enum": ["list", "summary", "full"]
     },
-    "resolution": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "by"
-      ],
-      "properties": {
-        "by": {
-          "type": "string",
-          "enum": [
-            "incident_id",
-            "target",
-            "deployment_id",
-            "all"
-          ]
-        },
-        "requested_incident_id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-        },
-        "requested_deployment_id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-        },
-        "requested_target": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "app_id",
-            "environment"
-          ],
-          "properties": {
-            "app_id": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128,
-              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-            },
-            "environment": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 64,
-              "pattern": "^[a-z][a-z0-9_-]{0,63}$"
-            }
-          }
-        }
-      }
-    },
+    "resolution": { "$ref": "#/$defs/resolution" },
     "index": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "used",
-        "rebuilt",
-        "db_path"
-      ],
+      "required": ["used", "rebuilt", "db_path"],
       "properties": {
-        "used": {
-          "type": "boolean"
-        },
-        "rebuilt": {
-          "type": "boolean"
-        },
+        "used": { "type": "boolean" },
+        "rebuilt": { "type": "boolean" },
         "db_path": {
           "type": "string",
           "minLength": 1,
@@ -99,385 +29,48 @@
     },
     "items": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "incident_id",
-          "classification",
-          "source",
-          "incident_status",
-          "target",
-          "deployment_id",
-          "run_id",
-          "captured_unix_ms",
-          "regression_status"
-        ],
-        "properties": {
-          "incident_id": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 128,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-          },
-          "classification": {
-            "type": "string",
-            "enum": [
-              "http_5xx",
-              "runtime_start_failed",
-              "runtime_health_failed",
-              "slo_rollback",
-              "manual_capture",
-              "app_kill",
-              "platform_kill"
-            ]
-          },
-          "source": {
-            "type": "string",
-            "enum": [
-              "router",
-              "runtime",
-              "slo",
-              "manual",
-              "control_plane"
-            ]
-          },
-          "incident_status": {
-            "type": "string",
-            "enum": [
-              "open",
-              "regression_generated",
-              "resolved"
-            ]
-          },
-          "target": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "app_id",
-              "environment"
-            ],
-            "properties": {
-              "app_id": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128,
-                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-              },
-              "environment": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 64,
-                "pattern": "^[a-z][a-z0-9_-]{0,63}$"
-              }
-            }
-          },
-          "deployment_id": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 128,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-          },
-          "run_id": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 128,
-            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-          },
-          "captured_unix_ms": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 9007199254740991,
-            "description": "Unix timestamp in milliseconds (non-negative, JS-safe integer)."
-          },
-          "request_id": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128,
-                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null
-          },
-          "trace_id": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128,
-                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null
-          },
-          "status_code": {
-            "oneOf": [
-              {
-                "type": "integer",
-                "minimum": 100,
-                "maximum": 599
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null
-          },
-          "decision_id": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128,
-                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null
-          },
-          "regression_status": {
-            "type": "string",
-            "enum": [
-              "not_requested",
-              "requested",
-              "generated",
-              "failed",
-              "unavailable"
-            ]
-          },
-          "regression_id": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128,
-                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null
-          },
-          "signature_status": {
-            "type": "string",
-            "enum": [
-              "valid",
-              "missing",
-              "invalid",
-              "not_applicable"
-            ]
-          }
-        }
-      },
+      "items": { "$ref": "#/$defs/incident_item" },
       "default": []
     },
     "total_estimate": {
-      "oneOf": [
-        {
-          "type": "integer",
-          "minimum": 0
-        },
-        {
-          "type": "null"
-        }
-      ],
+      "oneOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }],
       "default": null
     },
-    "incident_id": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128,
-      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-    },
-    "classification": {
-      "type": "string",
-      "enum": [
-        "http_5xx",
-        "runtime_start_failed",
-        "runtime_health_failed",
-        "slo_rollback",
-        "manual_capture",
-        "app_kill",
-        "platform_kill"
-      ]
-    },
-    "source": {
-      "type": "string",
-      "enum": [
-        "router",
-        "runtime",
-        "slo",
-        "manual",
-        "control_plane"
-      ]
-    },
-    "incident_status": {
-      "type": "string",
-      "enum": [
-        "open",
-        "regression_generated",
-        "resolved"
-      ]
-    },
-    "target": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "app_id",
-        "environment"
-      ],
-      "properties": {
-        "app_id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-        },
-        "environment": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 64,
-          "pattern": "^[a-z][a-z0-9_-]{0,63}$"
-        }
-      }
-    },
-    "deployment_id": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128,
-      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-    },
-    "run_id": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128,
-      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-    },
-    "captured_unix_ms": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 9007199254740991,
-      "description": "Unix timestamp in milliseconds (non-negative, JS-safe integer)."
-    },
-    "request_id": {
-      "oneOf": [
-        {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null
-    },
-    "trace_id": {
-      "oneOf": [
-        {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null
-    },
+    "incident_id": { "$ref": "#/$defs/id" },
+    "classification": { "$ref": "#/$defs/classification" },
+    "source": { "$ref": "#/$defs/source" },
+    "incident_status": { "$ref": "#/$defs/incident_status" },
+    "target": { "$ref": "#/$defs/target_ref" },
+    "deployment_id": { "$ref": "#/$defs/nullable_id" },
+    "release_plan_id": { "$ref": "#/$defs/nullable_id" },
+    "release_exec_id": { "$ref": "#/$defs/nullable_id" },
+    "run_id": { "$ref": "#/$defs/id" },
+    "captured_unix_ms": { "$ref": "#/$defs/unix_ms" },
+    "request_id": { "$ref": "#/$defs/nullable_id" },
+    "trace_id": { "$ref": "#/$defs/nullable_id" },
     "status_code": {
-      "oneOf": [
-        {
-          "type": "integer",
-          "minimum": 100,
-          "maximum": 599
-        },
-        {
-          "type": "null"
-        }
-      ],
+      "oneOf": [{ "type": "integer", "minimum": 100, "maximum": 599 }, { "type": "null" }],
       "default": null
     },
-    "decision_id": {
-      "oneOf": [
-        {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-        },
-        {
-          "type": "null"
-        }
-      ],
+    "decision_id": { "$ref": "#/$defs/nullable_id" },
+    "regression_status": { "$ref": "#/$defs/regression_status" },
+    "regression_id": { "$ref": "#/$defs/nullable_id" },
+    "signature_status": { "$ref": "#/$defs/signature_status" },
+    "device_release": {
+      "oneOf": [{ "$ref": "#/$defs/device_release_ref" }, { "type": "null" }],
       "default": null
     },
-    "regression_status": {
-      "type": "string",
-      "enum": [
-        "not_requested",
-        "requested",
-        "generated",
-        "failed",
-        "unavailable"
-      ]
-    },
-    "regression_id": {
-      "oneOf": [
-        {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128,
-          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-        },
-        {
-          "type": "null"
-        }
-      ],
+    "native_context": {
+      "oneOf": [{ "$ref": "#/$defs/native_context" }, { "type": "null" }],
       "default": null
-    },
-    "signature_status": {
-      "type": "string",
-      "enum": [
-        "valid",
-        "missing",
-        "invalid",
-        "not_applicable"
-      ]
     },
     "window": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "start_unix_ms",
-        "end_unix_ms"
-      ],
+      "required": ["start_unix_ms", "end_unix_ms"],
       "properties": {
-        "start_unix_ms": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 9007199254740991,
-          "description": "Unix timestamp in milliseconds (non-negative, JS-safe integer)."
-        },
-        "end_unix_ms": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 9007199254740991,
-          "description": "Unix timestamp in milliseconds (non-negative, JS-safe integer)."
-        }
+        "start_unix_ms": { "$ref": "#/$defs/unix_ms" },
+        "end_unix_ms": { "$ref": "#/$defs/unix_ms" }
       }
     },
     "diag_codes": {
@@ -491,567 +84,494 @@
       "default": []
     },
     "request": {
-      "oneOf": [
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "digest"
-          ],
-          "properties": {
-            "kind": {
-              "type": "string",
-              "minLength": 3,
-              "maxLength": 128,
-              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*@[0-9]+\\.[0-9]+\\.[0-9]+$"
-            },
-            "digest": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "sha256",
-                "bytes_len"
-              ],
-              "properties": {
-                "sha256": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                },
-                "bytes_len": {
-                  "type": "integer",
-                  "minimum": 0
-                }
-              }
-            },
-            "label": {
-              "type": "string",
-              "maxLength": 256
-            },
-            "store_uri": {
-              "type": "string",
-              "maxLength": 2048
-            },
-            "media_type": {
-              "type": "string",
-              "maxLength": 256
-            },
-            "logical_name": {
-              "type": "string",
-              "maxLength": 256
-            }
-          }
-        },
-        {
-          "type": "null"
-        }
-      ],
+      "oneOf": [{ "$ref": "#/$defs/artifact_ref" }, { "type": "null" }],
       "default": null
     },
     "response": {
-      "oneOf": [
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "digest"
-          ],
-          "properties": {
-            "kind": {
-              "type": "string",
-              "minLength": 3,
-              "maxLength": 128,
-              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*@[0-9]+\\.[0-9]+\\.[0-9]+$"
-            },
-            "digest": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "sha256",
-                "bytes_len"
-              ],
-              "properties": {
-                "sha256": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                },
-                "bytes_len": {
-                  "type": "integer",
-                  "minimum": 0
-                }
-              }
-            },
-            "label": {
-              "type": "string",
-              "maxLength": 256
-            },
-            "store_uri": {
-              "type": "string",
-              "maxLength": 2048
-            },
-            "media_type": {
-              "type": "string",
-              "maxLength": 256
-            },
-            "logical_name": {
-              "type": "string",
-              "maxLength": 256
-            }
-          }
-        },
-        {
-          "type": "null"
-        }
-      ],
+      "oneOf": [{ "$ref": "#/$defs/artifact_ref" }, { "type": "null" }],
       "default": null
     },
     "trace": {
-      "oneOf": [
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "digest"
-          ],
-          "properties": {
-            "kind": {
-              "type": "string",
-              "minLength": 3,
-              "maxLength": 128,
-              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*@[0-9]+\\.[0-9]+\\.[0-9]+$"
-            },
-            "digest": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "sha256",
-                "bytes_len"
-              ],
-              "properties": {
-                "sha256": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                },
-                "bytes_len": {
-                  "type": "integer",
-                  "minimum": 0
-                }
-              }
-            },
-            "label": {
-              "type": "string",
-              "maxLength": 256
-            },
-            "store_uri": {
-              "type": "string",
-              "maxLength": 2048
-            },
-            "media_type": {
-              "type": "string",
-              "maxLength": 256
-            },
-            "logical_name": {
-              "type": "string",
-              "maxLength": 256
-            }
-          }
-        },
-        {
-          "type": "null"
-        }
-      ],
+      "oneOf": [{ "$ref": "#/$defs/artifact_ref" }, { "type": "null" }],
       "default": null
     },
     "bundle": {
-      "oneOf": [
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "digest",
-            "store_uri"
-          ],
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "lp.incident.bundle@0.1.0"
-            },
-            "digest": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "sha256",
-                "bytes_len"
-              ],
-              "properties": {
-                "sha256": {
-                  "type": "string",
-                  "pattern": "^[0-9a-f]{64}$"
-                },
-                "bytes_len": {
-                  "type": "integer",
-                  "minimum": 0
-                }
-              }
-            },
-            "store_uri": {
-              "type": "string",
-              "maxLength": 2048
-            },
-            "media_type": {
-              "type": "string",
-              "maxLength": 256,
-              "default": "application/json"
-            }
-          }
-        },
-        {
-          "type": "null"
-        }
-      ],
+      "oneOf": [{ "$ref": "#/$defs/bundle_artifact_ref" }, { "type": "null" }],
       "default": null
     },
     "refs": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "role",
-          "digest",
-          "media_type",
-          "store_uri"
-        ],
-        "properties": {
-          "role": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 64
-          },
-          "ord": {
-            "type": "integer",
-            "minimum": 0,
-            "default": 0
-          },
-          "kind": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 3,
-                "maxLength": 128,
-                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*@[0-9]+\\.[0-9]+\\.[0-9]+$"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null
-          },
-          "digest": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "sha256",
-              "bytes_len"
-            ],
-            "properties": {
-              "sha256": {
-                "type": "string",
-                "pattern": "^[0-9a-f]{64}$"
-              },
-              "bytes_len": {
-                "type": "integer",
-                "minimum": 0
-              }
-            }
-          },
-          "media_type": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 256
-          },
-          "logical_name": {
-            "type": "string",
-            "maxLength": 256
-          },
-          "store_uri": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 2048
-          }
-        }
-      },
+      "items": { "$ref": "#/$defs/full_ref_artifact" },
       "default": []
     },
     "meta": {
-      "oneOf": [
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "schema_version",
-            "classification",
-            "source",
-            "incident_status",
-            "deployment_id",
-            "run_id",
-            "target",
-            "captured_unix_ms"
-          ],
-          "properties": {
-            "schema_version": {
-              "const": "lp.incident.bundle.meta.local@0.1.0"
-            },
-            "classification": {
-              "type": "string",
-              "enum": [
-                "http_5xx",
-                "runtime_start_failed",
-                "runtime_health_failed",
-                "slo_rollback",
-                "manual_capture",
-                "app_kill",
-                "platform_kill"
-              ]
-            },
-            "source": {
-              "type": "string",
-              "enum": [
-                "router",
-                "runtime",
-                "slo",
-                "manual",
-                "control_plane"
-              ]
-            },
-            "incident_status": {
-              "type": "string",
-              "enum": [
-                "open",
-                "regression_generated",
-                "resolved"
-              ]
-            },
-            "deployment_id": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128,
-              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-            },
-            "run_id": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128,
-              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-            },
-            "target": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "app_id",
-                "environment"
-              ],
-              "properties": {
-                "app_id": {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 128,
-                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-                },
-                "environment": {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 64,
-                  "pattern": "^[a-z][a-z0-9_-]{0,63}$"
-                }
-              }
-            },
-            "captured_unix_ms": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 9007199254740991,
-              "description": "Unix timestamp in milliseconds (non-negative, JS-safe integer)."
-            },
-            "request_id": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 128,
-                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null
-            },
-            "trace_id": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 128,
-                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null
-            },
-            "pack_digest": {
-              "oneOf": [
-                {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "required": [
-                    "sha256",
-                    "bytes_len"
-                  ],
-                  "properties": {
-                    "sha256": {
-                      "type": "string",
-                      "pattern": "^[0-9a-f]{64}$"
-                    },
-                    "bytes_len": {
-                      "type": "integer",
-                      "minimum": 0
-                    }
-                  }
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null
-            },
-            "slot": {
-              "type": "string",
-              "enum": [
-                "stable",
-                "candidate",
-                "none"
-              ],
-              "default": "none"
-            },
-            "candidate_weight_pct": {
-              "oneOf": [
-                {
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 100
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null
-            },
-            "status_code": {
-              "oneOf": [
-                {
-                  "type": "integer",
-                  "minimum": 100,
-                  "maximum": 599
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null
-            },
-            "route_key": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "maxLength": 512
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null
-            },
-            "decision_id": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 128,
-                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null
-            },
-            "regression_id": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 128,
-                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "default": null
-            },
-            "regression_status": {
-              "type": "string",
-              "enum": [
-                "not_requested",
-                "requested",
-                "generated",
-                "failed",
-                "unavailable"
-              ],
-              "default": "not_requested"
-            },
-            "signature_status": {
-              "type": "string",
-              "enum": [
-                "valid",
-                "missing",
-                "invalid",
-                "not_applicable"
-              ]
-            }
-          }
-        },
-        {
-          "type": "null"
-        }
-      ],
+      "oneOf": [{ "$ref": "#/$defs/meta_local" }, { "type": "null" }],
       "default": null
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "nullable_id": {
+      "oneOf": [{ "$ref": "#/$defs/id" }, { "type": "null" }],
+      "default": null
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "digest_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "bytes_len"],
+      "properties": {
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes_len": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "unix_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Unix timestamp in milliseconds (non-negative, JS-safe integer)."
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "http_5xx",
+        "runtime_start_failed",
+        "runtime_health_failed",
+        "slo_rollback",
+        "manual_capture",
+        "app_kill",
+        "platform_kill",
+        "device_release_gate_failed",
+        "device_release_provider_failed",
+        "native_runtime_error",
+        "native_policy_violation",
+        "native_bridge_timeout",
+        "native_host_crash",
+        "native_permission_blocked"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "router",
+        "runtime",
+        "slo",
+        "manual",
+        "control_plane",
+        "device_host",
+        "device_release",
+        "telemetry"
+      ]
+    },
+    "incident_status": {
+      "type": "string",
+      "enum": ["open", "regression_generated", "resolved"]
+    },
+    "regression_status": {
+      "type": "string",
+      "enum": ["not_requested", "requested", "generated", "failed", "unavailable"]
+    },
+    "signature_status": {
+      "type": "string",
+      "enum": ["valid", "missing", "invalid", "not_applicable"]
+    },
+    "target_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["app_id", "environment"],
+      "properties": {
+        "app_id": { "$ref": "#/$defs/id" },
+        "environment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+        }
+      }
+    },
+    "host_target_kind": {
+      "type": "string",
+      "enum": ["desktop", "ios", "android"]
+    },
+    "provider_kind": {
+      "type": "string",
+      "enum": ["mock_v1", "appstoreconnect_v1", "googleplay_v1"]
+    },
+    "permission_state": {
+      "type": "string",
+      "enum": ["granted", "denied", "prompt", "restricted", "unsupported"]
+    },
+    "blob_store_capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "max_total_bytes", "max_item_bytes"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "max_total_bytes": { "type": "integer", "minimum": 1, "maximum": 1073741824 },
+        "max_item_bytes": { "type": "integer", "minimum": 1, "maximum": 268435456 }
+      }
+    },
+    "capabilities_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "camera_photo",
+        "files_pick",
+        "blob_store",
+        "location_foreground",
+        "notifications_local",
+        "notifications_push"
+      ],
+      "properties": {
+        "camera_photo": { "type": "boolean" },
+        "files_pick": { "type": "boolean" },
+        "blob_store": { "$ref": "#/$defs/blob_store_capability" },
+        "location_foreground": { "type": "boolean" },
+        "notifications_local": { "type": "boolean" },
+        "notifications_push": { "type": "boolean" }
+      }
+    },
+    "permission_state_snapshot": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[a-z][a-z0-9._-]*$"
+      },
+      "additionalProperties": { "$ref": "#/$defs/permission_state" },
+      "maxProperties": 32,
+      "default": {}
+    },
+    "breadcrumb": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ord", "event_class", "op", "status"],
+      "properties": {
+        "ord": { "type": "integer", "minimum": 0 },
+        "event_class": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9._-]*$"
+        },
+        "op": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-z][a-z0-9._-]*$"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9._-]*$"
+        },
+        "request_id": {
+          "oneOf": [{ "$ref": "#/$defs/id" }, { "type": "null" }],
+          "default": null
+        },
+        "unix_ms": {
+          "oneOf": [{ "$ref": "#/$defs/unix_ms" }, { "type": "null" }],
+          "default": null
+        },
+        "duration_ms": {
+          "oneOf": [{ "type": "integer", "minimum": 0, "maximum": 3600000 }, { "type": "null" }],
+          "default": null
+        },
+        "permission": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 512
+        }
+      }
+    },
+    "native_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "platform",
+        "capabilities_summary",
+        "permission_state_snapshot",
+        "lifecycle_state",
+        "connectivity_state",
+        "breadcrumbs"
+      ],
+      "properties": {
+        "kind": { "const": "device_native" },
+        "release_plan_id": { "$ref": "#/$defs/nullable_id" },
+        "release_exec_id": { "$ref": "#/$defs/nullable_id" },
+        "provider_kind": {
+          "oneOf": [{ "$ref": "#/$defs/provider_kind" }, { "type": "null" }],
+          "default": null
+        },
+        "platform": { "$ref": "#/$defs/host_target_kind" },
+        "package_manifest_sha256": {
+          "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }],
+          "default": null
+        },
+        "capabilities_summary": { "$ref": "#/$defs/capabilities_summary" },
+        "permission_state_snapshot": { "$ref": "#/$defs/permission_state_snapshot" },
+        "lifecycle_state": {
+          "type": "string",
+          "enum": ["foreground", "background", "resume", "unknown"]
+        },
+        "connectivity_state": {
+          "type": "string",
+          "enum": ["online", "offline", "unknown"]
+        },
+        "breadcrumbs": {
+          "type": "array",
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/breadcrumb" },
+          "default": []
+        }
+      }
+    },
+    "device_release_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release_exec_id", "provider_kind", "distribution_lane", "target_kind"],
+      "properties": {
+        "release_exec_id": { "$ref": "#/$defs/id" },
+        "release_plan_id": { "$ref": "#/$defs/nullable_id" },
+        "provider_kind": { "$ref": "#/$defs/provider_kind" },
+        "distribution_lane": {
+          "type": "string",
+          "enum": ["beta", "production"]
+        },
+        "target_kind": {
+          "type": "string",
+          "enum": ["ios", "android"]
+        },
+        "package_manifest_sha256": {
+          "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }],
+          "default": null
+        }
+      }
+    },
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["digest"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*@[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "digest": { "$ref": "#/$defs/digest_ref" },
+        "label": { "type": "string", "maxLength": 256 },
+        "store_uri": { "type": "string", "maxLength": 2048 },
+        "media_type": { "type": "string", "maxLength": 256 },
+        "logical_name": { "type": "string", "maxLength": 256 }
+      }
+    },
+    "bundle_artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["digest", "store_uri"],
+      "properties": {
+        "kind": { "const": "lp.incident.bundle@0.2.0" },
+        "digest": { "$ref": "#/$defs/digest_ref" },
+        "store_uri": { "type": "string", "maxLength": 2048 },
+        "media_type": {
+          "type": "string",
+          "maxLength": 256,
+          "default": "application/json"
+        }
+      }
+    },
+    "full_ref_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "digest", "media_type", "store_uri"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "ord": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "kind": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*@[0-9]+\\.[0-9]+\\.[0-9]+$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "digest": { "$ref": "#/$defs/digest_ref" },
+        "media_type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "logical_name": { "type": "string", "maxLength": 256 },
+        "store_uri": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["by"],
+      "properties": {
+        "by": {
+          "type": "string",
+          "enum": ["incident_id", "target", "deployment_id", "release_exec_id", "all"]
+        },
+        "requested_incident_id": { "$ref": "#/$defs/id" },
+        "requested_deployment_id": { "$ref": "#/$defs/id" },
+        "requested_release_exec_id": { "$ref": "#/$defs/id" },
+        "requested_target": { "$ref": "#/$defs/target_ref" }
+      }
+    },
+    "incident_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "incident_id",
+        "classification",
+        "source",
+        "incident_status",
+        "target",
+        "deployment_id",
+        "release_plan_id",
+        "release_exec_id",
+        "run_id",
+        "captured_unix_ms",
+        "regression_status",
+        "signature_status",
+        "device_release"
+      ],
+      "properties": {
+        "incident_id": { "$ref": "#/$defs/id" },
+        "classification": { "$ref": "#/$defs/classification" },
+        "source": { "$ref": "#/$defs/source" },
+        "incident_status": { "$ref": "#/$defs/incident_status" },
+        "target": { "$ref": "#/$defs/target_ref" },
+        "deployment_id": { "$ref": "#/$defs/nullable_id" },
+        "release_plan_id": { "$ref": "#/$defs/nullable_id" },
+        "release_exec_id": { "$ref": "#/$defs/nullable_id" },
+        "run_id": { "$ref": "#/$defs/id" },
+        "captured_unix_ms": { "$ref": "#/$defs/unix_ms" },
+        "request_id": { "$ref": "#/$defs/nullable_id" },
+        "trace_id": { "$ref": "#/$defs/nullable_id" },
+        "status_code": {
+          "oneOf": [{ "type": "integer", "minimum": 100, "maximum": 599 }, { "type": "null" }],
+          "default": null
+        },
+        "decision_id": { "$ref": "#/$defs/nullable_id" },
+        "regression_status": { "$ref": "#/$defs/regression_status" },
+        "regression_id": { "$ref": "#/$defs/nullable_id" },
+        "signature_status": { "$ref": "#/$defs/signature_status" },
+        "device_release": {
+          "oneOf": [{ "$ref": "#/$defs/device_release_ref" }, { "type": "null" }],
+          "default": null
+        }
+      }
+    },
+    "meta_local": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "classification",
+        "source",
+        "incident_status",
+        "run_id",
+        "target",
+        "captured_unix_ms"
+      ],
+      "properties": {
+        "schema_version": { "const": "lp.incident.bundle.meta.local@0.2.0" },
+        "classification": { "$ref": "#/$defs/classification" },
+        "source": { "$ref": "#/$defs/source" },
+        "incident_status": { "$ref": "#/$defs/incident_status" },
+        "deployment_id": { "$ref": "#/$defs/nullable_id" },
+        "release_plan_id": { "$ref": "#/$defs/nullable_id" },
+        "release_exec_id": { "$ref": "#/$defs/nullable_id" },
+        "run_id": { "$ref": "#/$defs/id" },
+        "target": { "$ref": "#/$defs/target_ref" },
+        "captured_unix_ms": { "$ref": "#/$defs/unix_ms" },
+        "request_id": { "$ref": "#/$defs/nullable_id" },
+        "trace_id": { "$ref": "#/$defs/nullable_id" },
+        "pack_digest": {
+          "oneOf": [{ "$ref": "#/$defs/digest_ref" }, { "type": "null" }],
+          "default": null
+        },
+        "package_digest": {
+          "oneOf": [{ "$ref": "#/$defs/digest_ref" }, { "type": "null" }],
+          "default": null
+        },
+        "slot": {
+          "type": "string",
+          "enum": ["stable", "candidate", "none"],
+          "default": "none"
+        },
+        "candidate_weight_pct": {
+          "oneOf": [{ "type": "integer", "minimum": 0, "maximum": 100 }, { "type": "null" }],
+          "default": null
+        },
+        "status_code": {
+          "oneOf": [{ "type": "integer", "minimum": 100, "maximum": 599 }, { "type": "null" }],
+          "default": null
+        },
+        "route_key": {
+          "oneOf": [{ "type": "string", "maxLength": 512 }, { "type": "null" }],
+          "default": null
+        },
+        "decision_id": { "$ref": "#/$defs/nullable_id" },
+        "regression_id": { "$ref": "#/$defs/nullable_id" },
+        "regression_status": { "$ref": "#/$defs/regression_status" },
+        "signature_status": { "$ref": "#/$defs/signature_status" },
+        "device_release": {
+          "oneOf": [{ "$ref": "#/$defs/device_release_ref" }, { "type": "null" }],
+          "default": null
+        },
+        "native_context": {
+          "oneOf": [{ "$ref": "#/$defs/native_context" }, { "type": "null" }],
+          "default": null
+        }
+      }
     }
   },
   "oneOf": [
     {
       "title": "list view",
-      "properties": {
-        "view": {
-          "const": "list"
-        }
-      },
-      "required": [
-        "schema_version",
-        "view",
-        "resolution",
-        "index",
-        "items"
-      ]
+      "properties": { "view": { "const": "list" } },
+      "required": ["schema_version", "view", "resolution", "index", "items"]
     },
     {
       "title": "summary view",
-      "properties": {
-        "view": {
-          "const": "summary"
-        }
-      },
+      "properties": { "view": { "const": "summary" } },
       "required": [
         "schema_version",
         "view",
@@ -1063,35 +583,8 @@
         "incident_status",
         "target",
         "deployment_id",
-        "run_id",
-        "captured_unix_ms",
-        "request_id",
-        "trace_id",
-        "status_code",
-        "decision_id",
-        "regression_status",
-        "regression_id",
-        "signature_status"
-      ]
-    },
-    {
-      "title": "full view",
-      "properties": {
-        "view": {
-          "const": "full"
-        }
-      },
-      "required": [
-        "schema_version",
-        "view",
-        "resolution",
-        "index",
-        "incident_id",
-        "classification",
-        "source",
-        "incident_status",
-        "target",
-        "deployment_id",
+        "release_plan_id",
+        "release_exec_id",
         "run_id",
         "captured_unix_ms",
         "request_id",
@@ -1101,6 +594,37 @@
         "regression_status",
         "regression_id",
         "signature_status",
+        "device_release",
+        "native_context"
+      ]
+    },
+    {
+      "title": "full view",
+      "properties": { "view": { "const": "full" } },
+      "required": [
+        "schema_version",
+        "view",
+        "resolution",
+        "index",
+        "incident_id",
+        "classification",
+        "source",
+        "incident_status",
+        "target",
+        "deployment_id",
+        "release_plan_id",
+        "release_exec_id",
+        "run_id",
+        "captured_unix_ms",
+        "request_id",
+        "trace_id",
+        "status_code",
+        "decision_id",
+        "regression_status",
+        "regression_id",
+        "signature_status",
+        "device_release",
+        "native_context",
         "window",
         "diag_codes",
         "request",

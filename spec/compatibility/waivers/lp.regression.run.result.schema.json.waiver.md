@@ -1,11 +1,14 @@
 # Waiver: `lp.regression.run.result.schema.json`
 
-This repo already corrected the canonical tool label in `lp.regression.run.result@0.1.0`.
+This file version-forwards the public regression run-result line from `@0.1.0` to `@0.2.0` while keeping the stable x07.io schema path and `$id`.
 
-Approved same-version edit:
+Approved same-path edits:
 
-- change `tool.name` from `x07-wasm` to `x07 wasm`
+- change the public contract metadata to `lp.regression.run.result@0.2.0`
+- allow both `app regress from-incident` and `device regress from-incident`
+- add `replay_target_kind`, `replay_mode`, and `replay_synthesis_status`
+- add structured generated native replay artifact refs
 
 Reason:
 
-- the registry-web mirror must match the authoritative contracts repo, and the public report already uses the space-separated tool label.
+- the public regression result URL stays stable, but M1 needs explicit native replay reporting semantics on the same path.

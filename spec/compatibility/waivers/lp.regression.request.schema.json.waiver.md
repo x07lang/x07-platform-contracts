@@ -1,11 +1,14 @@
 # Waiver: `lp.regression.request.schema.json`
 
-This rollout extends `lp.regression.request@0.1.0` in place.
+This file version-forwards the public regression request line from `@0.1.0` to `@0.2.0` while keeping the stable x07.io schema path and `$id`.
 
-Approved same-version edits:
+Approved same-path edits:
 
-- allow `x07.device.package.manifest@0.1.0` as a public regression target artifact
+- change the public contract metadata to `lp.regression.request@0.2.0`
+- retarget incident refs to `lp.incident.bundle@0.2.0`
+- add `replay_target_kind`
+- add `native_replay_hints`
 
 Reason:
 
-- device incidents must flow through the same public regression request contract used by deploy incidents.
+- device-native incidents must flow through the shared regression request contract without changing the published schema URL.
