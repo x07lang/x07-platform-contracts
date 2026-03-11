@@ -23,6 +23,7 @@ Hosted public additions include:
 - session and token exchange contracts for `x07lp` hosted login
 - organization, project, and environment listing contracts for hosted context selection
 - secret inventory contracts for hosted console and CLI metadata views
+- entitlement and usage summary contracts for hosted quota and usage APIs
 
 Rules:
 

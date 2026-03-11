@@ -19,6 +19,8 @@ Key hosted response/result schemas:
 - `lp.org.list.result@0.1.0`
 - `lp.project.list.result@0.1.0`
 - `lp.environment.list.result@0.1.0`
+- `lp.hosted.entitlements.result@0.1.0`
+- `lp.usage.summary.result@0.1.0`
 - `lp.secret.list.result@0.1.0`
 
 The canonical endpoint set is implemented by `x07-platform/x07lpd`, but public wire-shape compatibility is governed here.

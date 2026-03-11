@@ -93,6 +93,10 @@
       "path": "lp.environment.list.result.schema.json"
     },
     {
+      "id": "https://x07.io/spec/lp.hosted.entitlements.result.schema.json",
+      "path": "lp.hosted.entitlements.result.schema.json"
+    },
+    {
       "id": "https://x07.io/spec/lp.incident.bundle.meta.local.schema.json",
       "path": "lp.incident.bundle.meta.local.schema.json"
     },
@@ -155,6 +159,10 @@
     {
       "id": "https://x07.io/spec/lp.target.profile.schema.json",
       "path": "lp.target.profile.schema.json"
+    },
+    {
+      "id": "https://x07.io/spec/lp.usage.summary.result.schema.json",
+      "path": "lp.usage.summary.result.schema.json"
     }
   ]
 }
