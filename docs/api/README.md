@@ -19,6 +19,7 @@ Key hosted response/result schemas:
 - `lp.org.list.result@0.1.0`
 - `lp.project.list.result@0.1.0`
 - `lp.environment.list.result@0.1.0`
+- `lp.secret.list.result@0.1.0`
 
 The canonical endpoint set is implemented by `x07-platform/x07lpd`, but public wire-shape compatibility is governed here.
 
@@ -32,7 +33,7 @@ Key D-OSS request/profile contracts:
 
 Remote clients are expected to honor the target profile trust settings and OCI registry requirements before calling the self-hosted API surface.
 
-Hosted clients use the shared `lp.auth.*` contracts for browser and device login session bootstrap, then use the hosted list-result contracts to create, list, and select org/project/environment context without introducing a separate public schema family.
+Hosted clients use the shared `lp.auth.*` contracts for browser and device login session bootstrap, then use the hosted list-result contracts to create, list, and select org/project/environment context and inspect hosted secret metadata without introducing a separate public schema family.
 
 Device-release consumers should treat the `@0.2.0` line as the public native-aware contract surface:
 
