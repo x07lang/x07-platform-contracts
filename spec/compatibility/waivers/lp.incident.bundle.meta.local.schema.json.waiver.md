@@ -8,8 +8,9 @@ Approved same-path edits:
 - replace the legacy device-native classifications with the M1 `native_*` taxonomy
 - add `release_plan_id`
 - add `native_context`
-- update the nested device-release shape to expose `target_kind` and `package_manifest_sha256`
+- add normalized local metadata fields: `native_classification`, `provider_kind`, `target_kind`, and `package_manifest_sha256`
+- update the nested device-release shape to expose `package_digest`, `target_kind`, and prefixed `package_manifest_sha256`
 
 Reason:
 
-- local incident metadata must stay on the shared published path while the M1 device-native incident model lands.
+- local incident metadata must stay on the shared published path while the M1 device-native incident model and package provenance fields land.

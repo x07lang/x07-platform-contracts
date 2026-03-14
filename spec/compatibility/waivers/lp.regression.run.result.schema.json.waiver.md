@@ -8,7 +8,10 @@ Approved same-path edits:
 - allow both `app regress from-incident` and `device regress from-incident`
 - add `replay_target_kind`, `replay_mode`, and `replay_synthesis_status`
 - add structured generated native replay artifact refs
+- add `created_unix_ms`
+- allow the app-trace path to report `replay_target_kind: unknown`
+- allow stored generated trace refs to carry `role` and `ord`
 
 Reason:
 
-- the public regression result URL stays stable, but M1 needs explicit native replay reporting semantics on the same path.
+- the public regression result URL stays stable, but M1 needs explicit native replay reporting semantics and generation metadata on the same path.
