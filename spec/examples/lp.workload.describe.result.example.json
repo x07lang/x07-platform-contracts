@@ -1,0 +1,42 @@
+{
+  "schema_version": "lp.workload.describe.result@0.1.0",
+  "view": "full",
+  "workload_id": "orders",
+  "display_name": "Orders",
+  "scope": {
+    "org_id": "org_demo",
+    "project_id": "proj_ops",
+    "environment_id": "env_prod"
+  },
+  "default_target_kind": "k8s",
+  "default_trust_profile": "sandboxed_service_v1",
+  "cells": [
+    {
+      "cell_id": "cell_api",
+      "cell_key": "api",
+      "cell_kind": "api-cell",
+      "ingress_kind": "http",
+      "runtime_class": "native-http",
+      "scale_class": "replicated-http",
+      "topology_group": "api",
+      "binding_refs": [
+        "db.primary",
+        "obj.documents"
+      ]
+    },
+    {
+      "cell_id": "cell_consumer",
+      "cell_key": "billing",
+      "cell_kind": "event-consumer",
+      "ingress_kind": "event",
+      "runtime_class": "native-worker",
+      "scale_class": "partitioned-consumer",
+      "topology_group": "workers",
+      "binding_refs": [
+        "db.primary",
+        "msg.orders"
+      ]
+    }
+  ],
+  "generated_unix_ms": 1762819200000
+}

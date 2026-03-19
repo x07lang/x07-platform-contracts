@@ -1,0 +1,10 @@
+{
+  "schema_version": "lp.release.submit.request@0.1.0",
+  "workload_id": "orders",
+  "environment_id": "env_prod",
+  "target_id": "tgt_k8s_prod",
+  "pack_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_generation_id": "gen_01HFY5S58W54Y17QGTFMKB4TH8",
+  "rollout_strategy": "manual",
+  "notes": "Candidate release for appsec review"
+}

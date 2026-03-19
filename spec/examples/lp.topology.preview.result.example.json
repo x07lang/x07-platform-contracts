@@ -1,0 +1,33 @@
+{
+  "schema_version": "lp.topology.preview.result@0.1.0",
+  "workload_id": "orders",
+  "profile_id": "prod",
+  "target_kind": "k8s",
+  "groups": [
+    {
+      "group_key": "api",
+      "cell_keys": [
+        "api"
+      ],
+      "runtime_class": "native-http",
+      "scale_class": "replicated-http",
+      "exposure": "public",
+      "notes": [
+        "ingress required"
+      ]
+    },
+    {
+      "group_key": "workers",
+      "cell_keys": [
+        "billing"
+      ],
+      "runtime_class": "native-worker",
+      "scale_class": "partitioned-consumer",
+      "exposure": "none",
+      "notes": [
+        "queue-driven"
+      ]
+    }
+  ],
+  "generated_unix_ms": 1762819200000
+}

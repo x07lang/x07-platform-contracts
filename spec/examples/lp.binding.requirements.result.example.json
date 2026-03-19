@@ -1,0 +1,32 @@
+{
+  "schema_version": "lp.binding.requirements.result@0.1.0",
+  "workload_id": "orders",
+  "bindings": [
+    {
+      "name": "db.primary",
+      "kind": "postgres",
+      "required_by_cells": [
+        "api",
+        "billing"
+      ],
+      "required": true
+    },
+    {
+      "name": "msg.orders",
+      "kind": "kafka",
+      "required_by_cells": [
+        "billing"
+      ],
+      "required": true
+    },
+    {
+      "name": "obj.documents",
+      "kind": "s3",
+      "required_by_cells": [
+        "api"
+      ],
+      "required": false
+    }
+  ],
+  "generated_unix_ms": 1762819200000
+}
