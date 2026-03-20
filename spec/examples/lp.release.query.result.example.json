@@ -1,0 +1,12 @@
+{
+  "schema_version": "lp.release.query.result@0.1.0",
+  "release_id": "rel_orders_20261110_01",
+  "workload_id": "orders",
+  "status": "under_review",
+  "pack_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "target_id": "tgt_k8s_prod",
+  "evidence_count": 2,
+  "latest_decision_id": "decision_01HFY5S58W54Y17QGTFMKB4TH8",
+  "created_unix_ms": 1762819200000,
+  "updated_unix_ms": 1762819260000
+}

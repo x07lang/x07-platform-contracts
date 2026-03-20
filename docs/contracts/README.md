@@ -10,7 +10,7 @@ Current public contract groups:
 - remote streams: `lp.remote.events.result@0.1.0`, `lp.remote.logs.result@0.1.0`
 - incidents and regressions: `lp.incident.bundle@0.2.0`, `lp.incident.bundle.meta.local@0.2.0`, `lp.incident.bundle.meta.remote@0.2.0`, `lp.incident.query.result@0.2.0`, `lp.regression.request@0.2.0`, `lp.regression.run.result@0.2.0`
 - target and adapter contracts: `lp.target.profile@0.1.0`, `lp.target.list.result@0.1.0`, `lp.remote.capabilities.response@0.1.0`, `lp.adapter.capabilities@0.1.0`, `lp.adapter.conformance.report@0.1.0`
-- workload delivery draft set: `lp.workload.describe.result@0.1.0`, `lp.workload.list.result@0.1.0`, `lp.workload.pack.manifest@0.1.0`, `lp.topology.preview.result@0.1.0`, `lp.binding.requirements.result@0.1.0`, `lp.binding.status.result@0.1.0`, `lp.scale.profile@0.1.0`, `lp.release.submit.request@0.1.0`, `lp.release.query.result@0.1.0`, `lp.release.evidence.bundle@0.1.0`, `lp.release.decision.record@0.1.0`
+- workload delivery set: `lp.workload.describe.result@0.1.0`, `lp.workload.list.result@0.1.0`, `lp.workload.pack.manifest@0.1.0`, `lp.topology.preview.result@0.1.0`, `lp.binding.requirements.result@0.1.0`, `lp.binding.status.result@0.1.0`, `lp.scale.profile@0.1.0`, `lp.release.submit.request@0.1.0`, `lp.release.query.result@0.1.0`, `lp.release.evidence.bundle@0.1.0`, `lp.release.decision.record@0.1.0`
 - CLI and control: `lp.cli.report@0.1.0`, `lp.control.action.result@0.1.0`, `lp.app.list.result@0.1.0`
 - shared hosted-facing public contracts: `lp.auth.*`, `lp.org.list.result@0.1.0`, `lp.project.list.result@0.1.0`, `lp.environment.list.result@0.1.0`, `lp.hosted.entitlements.result@0.1.0`, `lp.usage.summary.result@0.1.0`, `lp.secret.list.result@0.1.0`, `lp.metering.event@0.1.0`
 
@@ -24,7 +24,8 @@ Notes:
 - `lp.regression.*@0.2.0` keeps incident-driven regression generation generic while adding `native_replay_hints`, replay target metadata, and structured generated native replay artifact refs.
 - Runtime permission state belongs in `lp.incident.*@0.2.0` via `native_context`, not in `lp.device.release.*@0.2.0` release metadata.
 - D-OSS remote deploy v1 accepts `x07.app.pack@0.1.0` only.
-- The workload/topology/binding/release set is draft and experimental. It freezes public naming and wire shape for service-oriented backend delivery without claiming that every downstream runtime path is GA-stable yet.
+- The workload/topology/binding/release set is fully indexed under `spec/schemas/index.json`, exported under `registry/export/spec/index.platform.json`, and covered by companion examples under `spec/examples/`.
+- The workload/topology/binding/release set freezes public naming and wire shape for service-oriented backend delivery without claiming that every downstream runtime path is GA-stable yet.
 - `lp.target.profile@0.1.0` now keeps the hardened self-hosted remote path under `kind = "oss_remote"` and adds additive `kind = "hosted" | "k8s" | "wasmcloud"` hints over the same authenticated creator-side profile shape.
 - `lp.target.profile@0.1.0` now defines the hardened self-hosted remote path:
   - `base_url` must be `https://...` unless it targets loopback `http://127.0.0.1` or `http://localhost`

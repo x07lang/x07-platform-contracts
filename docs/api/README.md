@@ -43,7 +43,7 @@ Key D-OSS request/profile contracts:
 
 Remote clients are expected to honor the target profile trust settings and OCI registry requirements before calling the self-hosted API surface.
 
-The workload/topology/binding/release lines are draft public contracts. They are intended for CLI, MCP, UI, and hosted release surfaces now, while leaving hosted-only review and provenance records in private `lpcloud.*` contracts.
+The workload/topology/binding/release lines are published public contracts with indexed schema exports and companion examples in `spec/examples/`. They are intended for CLI, MCP, UI, and hosted release surfaces now, while leaving hosted-only review and provenance records in private `lpcloud.*` contracts.
 
 Hosted clients use the shared `lp.auth.*` contracts for browser and device login session bootstrap, then use the hosted list-result contracts to create, list, and select org/project/environment context and inspect hosted secret metadata without introducing a separate public schema family.
 

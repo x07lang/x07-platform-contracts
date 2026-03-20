@@ -1,0 +1,24 @@
+{
+  "schema_version": "lp.release.evidence.bundle@0.1.0",
+  "release_id": "rel_orders_20261110_01",
+  "items": [
+    {
+      "evidence_kind": "provenance",
+      "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "uri": "oci://registry.example.com/x07/orders/provenance@sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "inline_json": {
+        "predicate_type": "https://slsa.dev/provenance/v1"
+      },
+      "created_unix_ms": 1762819200000
+    },
+    {
+      "evidence_kind": "deploy_plan",
+      "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "uri": null,
+      "inline_json": {
+        "strategy": "manual"
+      },
+      "created_unix_ms": 1762819200000
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schema_version": "lp.release.decision.record@0.1.0",
+  "decision_id": "decision_01HFY5S58W54Y17QGTFMKB4TH8",
+  "release_id": "rel_orders_20261110_01",
+  "decision_kind": "approve",
+  "actor_kind": "human",
+  "actor_id": "user_ops_lead",
+  "reason_code": "manual-review-passed",
+  "notes": "Static review and trust evidence passed for production candidate.",
+  "created_unix_ms": 1762819200000
+}

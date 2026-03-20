@@ -1,0 +1,55 @@
+{
+  "schema_version": "lp.workload.pack.manifest@0.1.0",
+  "workload_id": "orders",
+  "project": {
+    "entry": "src/main.x07.json",
+    "module_roots": [
+      "src",
+      "src/domain",
+      "src/service"
+    ]
+  },
+  "cells": [
+    {
+      "cell_id": "orders.api",
+      "cell_key": "api",
+      "cell_kind": "api-cell",
+      "ingress_kind": "http",
+      "runtime_class": "native-http",
+      "scale_class": "replicated-http",
+      "topology_group": "api",
+      "binding_refs": [
+        "db.primary",
+        "obj.documents"
+      ]
+    },
+    {
+      "cell_id": "orders.billing",
+      "cell_key": "billing",
+      "cell_kind": "event-consumer",
+      "ingress_kind": "event",
+      "runtime_class": "native-worker",
+      "scale_class": "partitioned-consumer",
+      "topology_group": "workers",
+      "binding_refs": [
+        "db.primary",
+        "msg.orders"
+      ]
+    }
+  ],
+  "bindings_required": [
+    "db.primary",
+    "msg.orders",
+    "obj.documents"
+  ],
+  "topology_profiles": [
+    {
+      "id": "dev",
+      "placement": "co-located"
+    },
+    {
+      "id": "prod",
+      "placement": "split-by-cell"
+    }
+  ]
+}

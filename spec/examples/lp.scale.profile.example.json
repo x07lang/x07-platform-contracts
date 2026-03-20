@@ -1,0 +1,9 @@
+{
+  "schema_version": "lp.scale.profile@0.1.0",
+  "class": "replicated-http",
+  "min_replicas": 2,
+  "max_replicas": 8,
+  "target_concurrency": 200,
+  "scale_metric": "http-rps",
+  "notes": "Default HTTP front door profile for k8s-backed production cells."
+}

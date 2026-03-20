@@ -1,0 +1,25 @@
+{
+  "schema_version": "lp.binding.status.result@0.1.0",
+  "view": "list",
+  "items": [
+    {
+      "binding_id": "binding.orders.db.primary",
+      "name": "db.primary",
+      "kind": "postgres",
+      "status": "ready",
+      "provider_kind": "k8s-secret",
+      "last_checked_unix_ms": 1762819200000,
+      "message": "secret and service endpoints resolved"
+    },
+    {
+      "binding_id": "binding.orders.msg.orders",
+      "name": "msg.orders",
+      "kind": "amqp",
+      "status": "pending",
+      "provider_kind": "k8s-secret",
+      "last_checked_unix_ms": 1762819200000,
+      "message": "waiting for broker credentials"
+    }
+  ],
+  "generated_unix_ms": 1762819200000
+}

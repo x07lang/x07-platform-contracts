@@ -1,0 +1,29 @@
+{
+  "schema_version": "lp.workload.list.result@0.1.0",
+  "view": "list",
+  "filters": {
+    "org_id": "org_demo",
+    "project_id": "proj_ops",
+    "environment_id": "env_prod",
+    "limit": 50
+  },
+  "items": [
+    {
+      "workload_id": "orders",
+      "display_name": "Orders",
+      "cell_count": 2,
+      "latest_release_id": "rel_orders_20261110_01",
+      "health": "healthy",
+      "updated_unix_ms": 1762819200000
+    },
+    {
+      "workload_id": "billing",
+      "display_name": "Billing",
+      "cell_count": 1,
+      "latest_release_id": null,
+      "health": "unknown",
+      "updated_unix_ms": 1762815600000
+    }
+  ],
+  "generated_unix_ms": 1762819200000
+}
