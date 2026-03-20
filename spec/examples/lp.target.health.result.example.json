@@ -1,0 +1,31 @@
+{
+  "schema_version": "lp.target.health.result@0.1.0",
+  "target_id": "target_k3s_local",
+  "name": "k3s-local",
+  "kind": "k8s",
+  "status": "healthy",
+  "reachable": true,
+  "provider_kind": "lp.impl.runtime.k8s_v1",
+  "capabilities_digest": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "checks": [
+    {
+      "name": "api_server",
+      "status": "ready",
+      "message": "cluster API responded to capability probe",
+      "observed_unix_ms": 1761000100000
+    },
+    {
+      "name": "ingress",
+      "status": "ready",
+      "message": "ingress class traefik is reachable",
+      "observed_unix_ms": 1761000100250
+    },
+    {
+      "name": "registry_push",
+      "status": "ready",
+      "message": "target registry auth and push checks succeeded",
+      "observed_unix_ms": 1761000100500
+    }
+  ],
+  "observed_unix_ms": 1761000100500
+}

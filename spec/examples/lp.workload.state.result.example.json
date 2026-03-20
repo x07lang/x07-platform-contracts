@@ -1,0 +1,56 @@
+{
+  "schema_version": "lp.workload.state.result@0.1.0",
+  "workload_id": "orders",
+  "target_id": "target_k3s_local",
+  "desired": {
+    "state": "running",
+    "release_id": "rel_orders_20260320",
+    "deployment_id": "dep_orders_20260320",
+    "rollout_strategy": "direct",
+    "updated_unix_ms": 1761000000000
+  },
+  "observed": {
+    "state": "running",
+    "health": "healthy",
+    "release_id": "rel_orders_20260320",
+    "deployment_id": "dep_orders_20260320",
+    "message": null,
+    "cells": [
+      {
+        "cell_key": "api",
+        "state": "running",
+        "health": "healthy",
+        "desired_replicas": 2,
+        "ready_replicas": 2,
+        "route_url": "https://orders.x07.local/orders/api",
+        "last_run_unix_ms": null,
+        "next_run_unix_ms": null,
+        "message": null
+      },
+      {
+        "cell_key": "events",
+        "state": "running",
+        "health": "healthy",
+        "desired_replicas": 3,
+        "ready_replicas": 3,
+        "route_url": null,
+        "last_run_unix_ms": null,
+        "next_run_unix_ms": null,
+        "message": "consumer group orders-live is healthy"
+      },
+      {
+        "cell_key": "settlement",
+        "state": "running",
+        "health": "healthy",
+        "desired_replicas": 1,
+        "ready_replicas": 1,
+        "route_url": null,
+        "last_run_unix_ms": 1760999400000,
+        "next_run_unix_ms": 1761003000000,
+        "message": null
+      }
+    ],
+    "updated_unix_ms": 1761000001500
+  },
+  "generated_unix_ms": 1761000001500
+}

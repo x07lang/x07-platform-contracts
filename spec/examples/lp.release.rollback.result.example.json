@@ -1,0 +1,12 @@
+{
+  "schema_version": "lp.release.rollback.result@0.1.0",
+  "release_id": "rel_orders_20260320",
+  "workload_id": "orders",
+  "target_id": "target_k3s_local",
+  "deployment_id": "dep_orders_20260320",
+  "rollback_to_release_id": "rel_orders_20260318",
+  "rollback_status": "accepted",
+  "reason_code": "LP_RUNTIME_ROLLBACK_ACCEPTED",
+  "message": "rollback request accepted and queued for reconciliation",
+  "generated_unix_ms": 1761000400000
+}

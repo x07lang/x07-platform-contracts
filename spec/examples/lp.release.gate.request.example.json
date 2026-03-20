@@ -1,0 +1,19 @@
+{
+  "schema_version": "lp.release.gate.request@0.1.0",
+  "release_id": "rel_orders_20260320",
+  "workload_id": "orders",
+  "target_id": "target_k3s_local",
+  "action": "deploy",
+  "deployment_id": null,
+  "rollout_strategy": "direct",
+  "requested_by": {
+    "subject_kind": "human",
+    "subject_id": "acct_demo"
+  },
+  "evidence_ids": [
+    "evidence_provenance_1",
+    "evidence_policy_1"
+  ],
+  "rollback_to_release_id": null,
+  "submitted_unix_ms": 1761000300000
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "lp.binding.probe.result@0.1.0",
+  "binding_id": "binding_obj_documents",
+  "name": "obj.documents",
+  "kind": "s3",
+  "status": "ready",
+  "configured": true,
+  "provider_kind": "lp.impl.bindings.k8s_v1",
+  "target_id": "target_k3s_local",
+  "checks": [
+    {
+      "name": "configuration",
+      "status": "ready",
+      "message": "endpoint, bucket, and secret refs are present",
+      "observed_unix_ms": 1761000200000
+    },
+    {
+      "name": "connectivity",
+      "status": "ready",
+      "message": "bucket HEAD probe succeeded",
+      "observed_unix_ms": 1761000200300
+    }
+  ],
+  "observed_unix_ms": 1761000200300
+}

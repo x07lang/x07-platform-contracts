@@ -1,0 +1,16 @@
+{
+  "schema_version": "lp.release.gate.result@0.1.0",
+  "release_id": "rel_orders_20260320",
+  "target_id": "target_k3s_local",
+  "action": "deploy",
+  "decision": "allow",
+  "decision_id": "decision_gate_allow_1",
+  "reason_codes": [
+    "LP_POLICY_OK",
+    "LP_BINDINGS_READY"
+  ],
+  "message": "policy, bindings, and target checks are satisfied",
+  "deployment_id": null,
+  "expires_unix_ms": 1761000600000,
+  "generated_unix_ms": 1761000300500
+}

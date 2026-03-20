@@ -28,7 +28,7 @@ That is why public platform contracts live here instead of being scattered acros
 
 This repo exists so the platform contract layer stays explicit and reusable across all of those surfaces.
 
-The current draft expansion adds workload, topology, binding, and release evidence contracts for service-oriented backend delivery. Those draft lines stay public as `lp.*`, while hosted-only review, queue, provenance, and approval records remain private `lpcloud.*` surfaces outside this repo.
+The current draft expansion adds workload state, topology, binding probe, target health, and release control contracts for service-oriented backend delivery. Those lines stay public as `lp.*`, while hosted-only review, queue, provenance, and approval records remain private `lpcloud.*` surfaces outside this repo.
 
 ## Practical Usage
 
@@ -92,4 +92,10 @@ Hosted public additions include:
 - organization, project, and environment listing contracts for hosted context selection
 - secret inventory contracts for hosted console and CLI metadata views
 - entitlement and usage summary contracts for hosted quota and usage APIs
-- workload, topology, binding, and release contracts for service-oriented backend delivery (`lp.workload.*`, `lp.topology.*`, `lp.binding.*`, `lp.release.*`)
+- workload, topology, target, binding, and release contracts for service-oriented backend delivery (`lp.workload.*`, `lp.topology.*`, `lp.target.*`, `lp.binding.*`, `lp.release.*`)
+
+Recent additive public coverage includes:
+
+- desired and observed workload state summaries for reconciler-driven control surfaces
+- provider-neutral target health and binding probe results
+- release gate request and decision contracts plus rollback execution results

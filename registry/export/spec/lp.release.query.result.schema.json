@@ -36,10 +36,13 @@
         "under_review",
         "approved",
         "rejected",
+        "deploy_requested",
         "deploying",
         "deployed",
+        "rollback_requested",
         "rolled_back",
-        "superseded"
+        "superseded",
+        "failed"
       ]
     },
     "pack_digest": {
@@ -65,6 +68,61 @@
       "default": 0
     },
     "latest_decision_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "deployment_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "gate_decision": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "allow",
+            "deny",
+            "hold"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "rollback_of_release_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "failed_reason_code": {
       "oneOf": [
         {
           "type": "string",
