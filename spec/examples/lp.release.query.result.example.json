@@ -3,6 +3,7 @@
   "release_id": "rel_orders_20261110_01",
   "workload_id": "orders",
   "status": "under_review",
+  "state_version": 0,
   "pack_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
   "target_id": "tgt_k8s_prod",
   "evidence_count": 2,
