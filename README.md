@@ -103,6 +103,6 @@ Recent additive public coverage includes:
 - rollout plans, status, and events (`lp.rollout.*`)
 - SLO snapshots and incident triggers (`lp.slo.*`, `lp.incident.trigger@0.1.0`)
 
-## M7 rollout + SLO mapping
+## Rollout + SLO mapping
 
-See `docs/m7_rollout_slo_mapping.md` for the canonical boundary and mapping rules used by runtime, cloud, and MCP.
+See `docs/rollout_slo_mapping.md` for the canonical boundary and mapping rules used by runtime, cloud, and MCP.

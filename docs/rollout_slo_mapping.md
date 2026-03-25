@@ -1,13 +1,13 @@
-# M7 rollout + SLO mapping (runtime ↔ cloud ↔ MCP)
+# Rollout + SLO mapping (runtime ↔ control plane ↔ MCP)
 
 This document defines the canonical mapping and boundary rules for rollout control and SLO evaluation in the X07 PaaS line.
 
 ## Responsibilities (Option B boundary)
 
-This contract set assumes **Option B** from the M7 plan:
+This contract set assumes an **Option B** boundary:
 
 - **Runtime (`x07-platform`)** executes rollouts and rollbacks and exposes rollout state.
-- **Cloud (`x07-platform-cloud`)** evaluates SLOs, stores SLO snapshots, and emits incident triggers / rollback actions.
+- **Control plane** evaluates SLOs, stores SLO snapshots, and emits incident triggers / rollback actions.
 - **MCP (`x07-mcp`)** consumes these contracts to provide safe read-only visibility and guardrailed actions.
 
 ## Correlation fields
@@ -25,7 +25,7 @@ All three surfaces should treat these identifiers as canonical:
 
 ## Rollout state mapping (`lp.rollout.status@0.1.0`)
 
-The `state` enum is the canonical operator surface and is stable across runtime, cloud, and MCP:
+The `state` enum is the canonical operator surface and is stable across runtime, control plane, and MCP:
 
 | `state` | UI summary | Notes |
 |---|---|---|
@@ -38,7 +38,7 @@ The `state` enum is the canonical operator surface and is stable across runtime,
 
 ## Incident triggers (`lp.incident.trigger@0.1.0`)
 
-Cloud may emit incident triggers for automated control loops and for audit trails.
+The control plane may emit incident triggers for automated control loops and for audit trails.
 
 ### Severity conventions
 
@@ -64,4 +64,3 @@ The `observations` object in `lp.incident.trigger@0.1.0`:
 - **must not contain secrets** (tokens, passwords, API keys, raw headers)
 - should prefer **stable identifiers** (snapshot IDs, objective IDs) over raw query strings
 - may be stored and displayed in support tooling, so it must be safe-by-default
-
