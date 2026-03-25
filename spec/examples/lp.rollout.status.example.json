@@ -1,0 +1,24 @@
+{
+  "schema_version": "lp.rollout.status@0.1.0",
+  "rollout_id": "lpro_demo_rollout_01",
+  "deployment_id": "lpdep_demo_api_01",
+  "environment_id": "lpenv_demo_staging",
+  "service_id": "lpsvc_demo_api",
+  "from_revision": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "to_revision": "sha256:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+  "strategy": "canary",
+  "state": "shifting",
+  "traffic_split": {
+    "stable_weight_pct": 90,
+    "canary_weight_pct": 10
+  },
+  "capacity_split": null,
+  "reason": null,
+  "last_event_id": "lproev_demo_0002",
+  "last_error": null,
+  "created_unix_ms": 1764360000000,
+  "updated_unix_ms": 1764360245000,
+  "meta": {
+    "step_index": 1
+  }
+}

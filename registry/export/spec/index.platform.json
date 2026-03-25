@@ -125,6 +125,10 @@
       "path": "lp.incident.query.result.schema.json"
     },
     {
+      "id": "https://x07.io/spec/lp.incident.trigger.schema.json",
+      "path": "lp.incident.trigger.schema.json"
+    },
+    {
       "id": "https://x07.io/spec/lp.metering.event.schema.json",
       "path": "lp.metering.event.schema.json"
     },
@@ -189,12 +193,32 @@
       "path": "lp.remote.logs.result.schema.json"
     },
     {
+      "id": "https://x07.io/spec/lp.rollout.event.schema.json",
+      "path": "lp.rollout.event.schema.json"
+    },
+    {
+      "id": "https://x07.io/spec/lp.rollout.plan.schema.json",
+      "path": "lp.rollout.plan.schema.json"
+    },
+    {
+      "id": "https://x07.io/spec/lp.rollout.status.schema.json",
+      "path": "lp.rollout.status.schema.json"
+    },
+    {
       "id": "https://x07.io/spec/lp.scale.profile.schema.json",
       "path": "lp.scale.profile.schema.json"
     },
     {
       "id": "https://x07.io/spec/lp.secret.list.result.schema.json",
       "path": "lp.secret.list.result.schema.json"
+    },
+    {
+      "id": "https://x07.io/spec/lp.slo.objective.schema.json",
+      "path": "lp.slo.objective.schema.json"
+    },
+    {
+      "id": "https://x07.io/spec/lp.slo.snapshot.schema.json",
+      "path": "lp.slo.snapshot.schema.json"
     },
     {
       "id": "https://x07.io/spec/lp.target.health.result.schema.json",

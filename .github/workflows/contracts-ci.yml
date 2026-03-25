@@ -20,5 +20,10 @@ jobs:
       - name: Compatibility
         run: ./scripts/check_compat.sh
 
+      - name: Schema + example validation
+        run: |
+          python3 -m pip install --upgrade --disable-pip-version-check --quiet jsonschema
+          python3 scripts/check_schemas_and_examples.py
+
       - name: Registry export bundle
         run: python3 scripts/export_registry_web_platform_specs.py --schema-dir spec/schemas --out-dir registry/export/spec

@@ -1,0 +1,41 @@
+{
+  "schema_version": "lp.slo.snapshot@0.1.0",
+  "snapshot_id": "lpslosnap_demo_fail_0002",
+  "deployment_id": "lpdep_demo_api_01",
+  "environment_id": "lpenv_demo_staging",
+  "service_id": "lpsvc_demo_api",
+  "rollout_id": "lpro_demo_rollout_01",
+  "window": {
+    "from_unix_ms": 1764360300000,
+    "to_unix_ms": 1764360600000
+  },
+  "objectives": [
+    {
+      "objective_id": "slo_error_rate_5m",
+      "kind": "error_rate",
+      "window_s": 300,
+      "target": { "max": 0.01 },
+      "observed": { "ratio": 0.004 },
+      "pass": true,
+      "reason": null
+    },
+    {
+      "objective_id": "slo_latency_p95_5m",
+      "kind": "latency_p95_ms",
+      "window_s": 300,
+      "target": { "max_ms": 250 },
+      "observed": { "p95_ms": 620 },
+      "pass": false,
+      "reason": "p95 above target"
+    }
+  ],
+  "pass": false,
+  "reason": "latency objective failed",
+  "request_id": "req_demo_01HXYZ1234",
+  "trace_id": "4bf92f3577b34da6a3ce929d0e0e4736",
+  "created_unix_ms": 1764360600500,
+  "meta": {
+    "source": "grafana-cloud",
+    "metrics_window": "5m"
+  }
+}

@@ -7,4 +7,4 @@ Rules:
 - Store only contract-level examples here.
 - Execution fixtures remain in `x07-platform/spec/fixtures/`.
 - Wildcard-based CI matcher templates are allowed for compatibility checks but are not JSON Schema example instances.
-
+- Additional examples for a schema may use the naming pattern `name.example.<variant>.json` (for example `lp.slo.snapshot.example.pass.json`).

@@ -1,0 +1,10 @@
+{
+  "schema_version": "lp.slo.objective@0.1.0",
+  "objective_id": "slo_error_rate_5m",
+  "kind": "error_rate",
+  "window_s": 300,
+  "target": {
+    "max": 0.01
+  },
+  "notes": "error rate over 5m must stay under 1%"
+}

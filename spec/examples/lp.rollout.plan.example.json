@@ -1,0 +1,29 @@
+{
+  "schema_version": "lp.rollout.plan@0.1.0",
+  "rollout_id": "lpro_demo_rollout_01",
+  "deployment_id": "lpdep_demo_api_01",
+  "environment_id": "lpenv_demo_staging",
+  "service_id": "lpsvc_demo_api",
+  "from_revision": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "to_revision": "sha256:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+  "strategy": "canary",
+  "canary": {
+    "steps": [
+      { "kind": "set_weight", "canary_weight_pct": 10 },
+      { "kind": "pause", "pause_s": 120 },
+      { "kind": "analysis", "analysis_kind": "slo.snapshot", "require_decision": "promote" },
+      { "kind": "set_weight", "canary_weight_pct": 25 },
+      { "kind": "pause", "pause_s": 120 },
+      { "kind": "analysis", "analysis_kind": "slo.snapshot", "require_decision": "promote" },
+      { "kind": "set_weight", "canary_weight_pct": 50 },
+      { "kind": "pause", "pause_s": 300 },
+      { "kind": "analysis", "analysis_kind": "slo.snapshot", "require_decision": "promote" },
+      { "kind": "set_weight", "canary_weight_pct": 100 }
+    ]
+  },
+  "created_unix_ms": 1764360000000,
+  "updated_unix_ms": 1764360123000,
+  "meta": {
+    "notes": "demo canary rollout plan"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "lp.incident.trigger@0.1.0",
+  "trigger_id": "lpinc_demo_trig_0001",
+  "deployment_id": "lpdep_demo_api_01",
+  "environment_id": "lpenv_demo_staging",
+  "service_id": "lpsvc_demo_api",
+  "rollout_id": "lpro_demo_rollout_01",
+  "signal_type": "slo_burn",
+  "severity": "page",
+  "reason": "SLO burn detected for latency_p95_ms",
+  "observations": {
+    "snapshot_id": "lpslosnap_demo_fail_0002",
+    "objective_id": "slo_latency_p95_5m",
+    "window_s": 300
+  },
+  "request_id": "req_demo_01HXYZ1234",
+  "trace_id": "4bf92f3577b34da6a3ce929d0e0e4736",
+  "created_unix_ms": 1764360601000,
+  "meta": {
+    "evaluator": "lpcloud-slo-evaluator"
+  }
+}
