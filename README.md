@@ -69,8 +69,8 @@ python3 scripts/export_registry_web_platform_specs.py \
 
 ## Repo Rules
 
-- Public stable `lp.*` schemas are authored here, not in `x07-platform` or `x07-platform-cloud`
-- `x07-platform` and `x07-platform-cloud` consume these contracts
+- Public stable `lp.*` schemas are authored here, not in runtime or hosted control plane implementations.
+- Runtimes and hosted control planes consume these contracts.
 - Hosted-only private schemas belong in `lpcloud.*`, not `lp.*`
 - Contract evolution for `@0.1.*` lines is additive-only; same-version edits require compatibility waivers (see `spec/compatibility/README.md`)
 - Device release metrics gates, incident linkage, and observe/stop/rerun controls stay in `lp.*`
