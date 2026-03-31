@@ -1,5 +1,9 @@
 # x07-platform-contracts
 
+## Agent Entrypoint
+
+Start here: https://x07lang.org/docs/getting-started/agent-quickstart
+
 `x07-platform-contracts` is the source-of-truth repo for the public contracts used by `x07-platform`.
 
 If `x07-platform` is the control plane that runs deployments and device releases, this repo is the public language those tools speak. It defines the `lp.*` schemas, indexes, and reason-code references that let the CLI, UI, MCP tools, and future hosted surfaces agree on the same data.
