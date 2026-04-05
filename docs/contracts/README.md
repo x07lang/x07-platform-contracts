@@ -42,4 +42,4 @@ Notes:
 - `lp.hosted.entitlements.result@0.1.0` exposes the hosted plan, quota limits, capability flags, and current deployment or SQLite usage for the selected context.
 - `lp.usage.summary.result@0.1.0` exposes the hosted usage window totals materialized from `lp.metering.event@0.1.0` plus the current deployment and SQLite counts used by quota enforcement.
 - `lp.secret.list.result@0.1.0` provides the shared hosted secret inventory table used by `x07lp` and hosted console metadata views without exposing secret values.
-- Public schemas, examples, and reason codes must not expose internal milestone naming.
+- Public schemas, examples, and reason codes must not expose internal release naming.
