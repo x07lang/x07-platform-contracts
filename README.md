@@ -1,53 +1,32 @@
 # x07-platform-contracts
 
-## Agent Entrypoint
+Source-of-truth repo for the public `lp.*` contracts used by X07 Platform.
 
-Start here: https://x07lang.org/docs/getting-started/agent-quickstart
+If `x07-platform` is the runtime and control plane, this repo is the public language those tools speak. It keeps the schema layer explicit so the CLI, UI, MCP tools, and downstream consumers can all operate on the same data model.
 
-`x07-platform-contracts` is the source-of-truth repo for the public contracts used by `x07-platform`.
+**Start here:** [`spec/schemas/`](spec/schemas/) · [`docs/`](docs/) · [`x07lang/x07-platform`](https://github.com/x07lang/x07-platform)
 
-If `x07-platform` is the control plane that runs deployments and device releases, this repo is the public language those tools speak. It defines the `lp.*` schemas, indexes, and reason-code references that let the CLI, UI, MCP tools, and future hosted surfaces agree on the same data.
+## What Lives Here
 
-## What Is In This Repo
+- public `lp.*` JSON Schemas
+- schema indexing and compatibility checks
+- contract docs and reason-code references
+- export helpers for downstream schema mirrors
 
-- **Public `lp.*` JSON Schemas** under `spec/schemas/`
-- **Schema indexing and compatibility checks** under `scripts/`
-- **Contract docs and reason-code references** under `docs/`
-- **Registry export helpers** under `registry/export/`
+## When To Use It
 
-## Vision
+Use `x07-platform-contracts` when you need to:
 
-The vision is to keep platform operations boring and predictable.
+- add or review a public platform schema
+- validate compatibility for a same-version schema change
+- export the public schema slice into downstream repos
+- understand the stable contract layer without reading runtime implementation code
 
-An end user should be able to move between local demos, self-hosted targets, and hosted surfaces without learning a different contract each time. A coding agent should be able to consume platform state as stable JSON instead of reverse-engineering ad hoc CLI text or UI payloads.
+Most end users will feel this repo indirectly through `x07-platform`, `x07lang-mcp`, and `x07.io`.
 
-That is why public platform contracts live here instead of being scattered across runtime repos.
+## Quick Start
 
-## How It Fits The X07 Ecosystem
-
-- [`x07`](https://github.com/x07lang/x07) is the core language and toolchain
-- [`x07-wasm-backend`](https://github.com/x07lang/x07-wasm-backend) produces the app and device artifacts that the platform manages
-- [`x07-platform`](https://github.com/x07lang/x07-platform) executes lifecycle workflows against those artifacts
-- [`x07-registry-web`](https://github.com/x07lang/x07-registry-web) mirrors the public schema slice so the same contracts are visible on `x07.io`
-
-This repo exists so the platform contract layer stays explicit and reusable across all of those surfaces.
-
-The current draft expansion adds workload state, topology, binding probe, target health, and release control contracts for service-oriented backend delivery. Those lines stay public as `lp.*`, while hosted-only review, queue, provenance, and approval records remain private `lpcloud.*` surfaces outside this repo.
-
-## Practical Usage
-
-Use this repo when you need to:
-
-- validate or review a public `lp.*` contract
-- add a new platform result, event, or control schema
-- check that a same-version schema edit is compatible
-- export the public platform schema slice into downstream repos
-
-Most end users will not work here directly. They will feel its effect through stable platform behavior in `x07-platform`, `x07lang-mcp`, and `x07.io`.
-
-## Standalone Workflow
-
-From the repo root:
+Generate and check the schema index:
 
 ```sh
 ./scripts/gen_schema_index.sh
@@ -55,7 +34,7 @@ From the repo root:
 ./scripts/check_compat.sh
 ```
 
-Build the registry export bundle:
+Export the schema bundle:
 
 ```sh
 python3 scripts/export_registry_web_platform_specs.py \
@@ -63,50 +42,14 @@ python3 scripts/export_registry_web_platform_specs.py \
   --out-dir registry/export/spec
 ```
 
-Sync the `x07.io` mirror in a sibling checkout:
+## Boundary Rules
 
-```sh
-python3 scripts/export_registry_web_platform_specs.py \
-  --schema-dir spec/schemas \
-  --registry-web-spec-dir ../x07-registry-web/static/spec
-```
+- public stable `lp.*` schemas are authored here
+- runtimes and hosted systems consume these contracts
+- hosted-only private schemas belong in `lpcloud.*`, not `lp.*`
 
-## Repo Rules
+## How It Fits The X07 Ecosystem
 
-- Public stable `lp.*` schemas are authored here, not in runtime or hosted control plane implementations.
-- Runtimes and hosted control planes consume these contracts.
-- Hosted-only private schemas belong in `lpcloud.*`, not `lp.*`
-- Contract evolution for `@0.1.*` lines is additive-only; same-version edits require compatibility waivers (see `spec/compatibility/README.md`)
-- Device release metrics gates, incident linkage, and observe/stop/rerun controls stay in `lp.*`
-- Device package and host-facing artifacts stay in `x07.device.*`
-
-## Contract Coverage
-
-D-OSS public additions include:
-
-- target profiles and listing contracts
-- remote upload and remote deploy result contracts
-- remote execution and incident companion metadata
-- remote event and log stream contracts
-- remote capabilities and adapter conformance contracts
-- device release orchestration, observability, and control contracts
-
-Hosted public additions include:
-
-- session and token exchange contracts for `x07lp` hosted login
-- organization, project, and environment listing contracts for hosted context selection
-- secret inventory contracts for hosted console and CLI metadata views
-- entitlement and usage summary contracts for hosted quota and usage APIs
-- workload, topology, target, binding, and release contracts for service-oriented backend delivery (`lp.workload.*`, `lp.topology.*`, `lp.target.*`, `lp.binding.*`, `lp.release.*`)
-
-Recent additive public coverage includes:
-
-- desired and observed workload state summaries for reconciler-driven control surfaces
-- provider-neutral target health and binding probe results
-- release gate request and decision contracts plus rollback execution results
-- rollout plans, status, and events (`lp.rollout.*`)
-- SLO snapshots and incident triggers (`lp.slo.*`, `lp.incident.trigger@0.1.0`)
-
-## Rollout + SLO mapping
-
-See `docs/rollout_slo_mapping.md` for the canonical boundary and mapping rules used by runtime, cloud, and MCP.
+- [`x07-platform`](https://github.com/x07lang/x07-platform) executes lifecycle workflows using these contracts
+- [`x07-registry-web`](https://github.com/x07lang/x07-registry-web) mirrors part of the public schema slice
+- [`x07`](https://github.com/x07lang/x07) and related tooling consume the contract layer where platform-facing workflows need it
