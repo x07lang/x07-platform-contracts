@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **This repository is archived** (2026-06). X07 has refocused on its core: a deterministic, certifiable execution substrate for agent-written software. This repo (the source of truth for the public `lp.*` contracts used by X07 Platform) is no longer maintained — no feature work, no releases. The active surface is [`x07lang/x07`](https://github.com/x07lang/x07), `x07-mcp`, `x07-registry`, `x07-wasm-backend`, and `hardproof`. Rationale and roadmap: `x07/docs/roadmap.md`.
+
 # x07-platform-contracts
 
 Source-of-truth repo for the public `lp.*` contracts used by X07 Platform.
